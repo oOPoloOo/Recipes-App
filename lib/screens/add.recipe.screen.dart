@@ -1,19 +1,12 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:recipes_app/widgets/recipe.widget.dart'; // isimt
-
-
 
 
 class RecipeDetails extends StatelessWidget { 
   
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +31,6 @@ final StorageServices storage = StorageServices();
              ),
         ],
       ),
-
-      //adaryt, kad nereiktu firebase_storage naudot
       body: Column(
         children: [          
           FutureBuilder(

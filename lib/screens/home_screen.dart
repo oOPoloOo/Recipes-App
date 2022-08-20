@@ -1,15 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:recipes_app/model/models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
 import 'screens.export.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';
-
-
 
 
 class HomeScreen extends StatelessWidget {
@@ -17,6 +12,7 @@ class HomeScreen extends StatelessWidget {
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
 final RecipeTile rTile = RecipeTile();
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +20,7 @@ final RecipeTile rTile = RecipeTile();
         title: Text('Cook Book'),
         actions: [
           IconButton(
-            //Issiaiskint kodel neveikia su /route tekstu
+            //Why not working with /details !!
             onPressed: (){Get.to(RecipeDetails());},
              icon: Icon(Icons.add)
              ),
@@ -43,21 +39,19 @@ final RecipeTile rTile = RecipeTile();
 
 
               } else if(snapshot.hasData){
-                 final users = snapshot.data!;  
-                  print('fine'); // cia ateina
+
+                 final users = snapshot.data!;                    
                  return ListView( children: users.map(rTile.buildRecipe).toList());   
-                
+
               }
               else
-              {        
-                 print('else');        
-                return Center(child: CircularProgressIndicator(),);
+              {                     
+                return Center(child: CircularProgressIndicator());
               }
 
-              //Pataisyt sita
-             return Text('keistas atvejis');
+              //Think of a way how to remove this!!
+              return Text('keistas atvejis');
             },
-
         ),
     );
   }

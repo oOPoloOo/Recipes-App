@@ -1,10 +1,8 @@
 
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
-
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'as firebase_core; // naudojamas klaidu ismetimui upload metu
+import 'package:firebase_core/firebase_core.dart'as firebase_core;
 import 'package:recipes_app/model/models.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:tuple/tuple.dart';
