@@ -1,21 +1,20 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:recipes_app/model/models.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage; // isimt
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:recipes_app/widgets/recipe.widget.dart'; // isimt
 
 
 
 
-class RecipeDetails extends StatelessWidget {
-  // const HomeScreen({Key? key}) : super(key: key);
+class RecipeDetails extends StatelessWidget { 
   
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +31,14 @@ final StorageServices storage = StorageServices();
 
              //Upload to cloud storage
              storage
-             .uploadFile(imgPath,imgName)
-             .then((value) => print('Done'));
+             .uploadFile(imgPath,imgName);
+             
             },
              icon: Icon(Icons.upload)
              ),
         ],
       ),
+
       //adaryt, kad nereiktu firebase_storage naudot
       body: Column(
         children: [          

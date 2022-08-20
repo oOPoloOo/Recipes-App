@@ -7,15 +7,16 @@ import 'package:flutter/services.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
 import 'screens.export.dart';
+import 'package:recipes_app/widgets/widgets.export.dart';
 
 
 
 
 class HomeScreen extends StatelessWidget {
-  // const HomeScreen({Key? key}) : super(key: key);
-  
+
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
+final RecipeTile rTile = RecipeTile();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +45,7 @@ final StorageServices storage = StorageServices();
               } else if(snapshot.hasData){
                  final users = snapshot.data!;  
                   print('fine'); // cia ateina
-                 return ListView( children: users.map(buildRecipe).toList());   
+                 return ListView( children: users.map(rTile.buildRecipe).toList());   
                 
               }
               else
@@ -61,13 +62,3 @@ final StorageServices storage = StorageServices();
     );
   }
 }
-
-//Perkelt i widgets aplnka!!
-//Pridet Nutrauka
-Widget buildRecipe(Recipe recipe) => ListTile(
-
-
-  //leading: CircleAvatar(child:Text(recipe.name)), // paveiksliukas
-  title: Text(recipe.name ), // didelis txt
-  subtitle: Text( '${recipe.cookTime}') // mazas txt zemiau
-  );

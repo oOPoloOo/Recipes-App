@@ -1,8 +1,7 @@
 class Recipe {
     
     final String name;
-    final int cookTime;
-    
+    final int cookTime;    
 
     Recipe({     
       required this.name,

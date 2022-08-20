@@ -13,7 +13,6 @@ void main() async {
  runApp(MyApp());
 }
 
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -22,11 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) { 
-    return GetMaterialApp(     
-      theme: ThemeData(
-        accentColor: Colors.purpleAccent,
-        primaryColor: Colors.purple,
-      ),
+    return GetMaterialApp(      
       getPages: AppRoutes.routes,
       initialRoute: '/home',
     );

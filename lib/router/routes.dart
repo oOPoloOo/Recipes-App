@@ -5,7 +5,9 @@ import 'route.names.dart';
 import 'package:recipes_app/screens/screens.export.dart';
 
 class AppRoutes {
-  AppRoutes._(); //this is to prevent anyone from instantiating this object
+
+  //this is to prevent anyone from instantiating this object
+  AppRoutes._(); 
   
   static final routes = [    
      GetPage(name: homeRouteName, page: () => HomeScreen()),

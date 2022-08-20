@@ -8,27 +8,24 @@ import 'package:recipes_app/model/models.dart';
  class DatabaseServices {
 
   Stream<List<Recipe>> readRecipes() => FirebaseFirestore.instance
-  .collection('Recipes')// kolekcija recipes
-  .snapshots() // visi jos dokumentai json info
+  .collection('Recipes')// Recipes collection
+  .snapshots() // All collection documents with json info
   .map((snapshot) => snapshot.docs.map((doc) => Recipe.fromJson(doc.data())).toList());
 
+  //
   writeRecipeImg() async {
     
-    //nustatau tinkamu failu param
-    final    mealImg = await FilePicker.platform.pickFiles(
+    //Configuring parameters of whanted files
+    final mealImg = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
       allowedExtensions: ['png','jpg'],
     );
 
-    // tikrinu ar null, jei nebuvo rasta
+    //Check if null (implement)
 
-    //issaugau pavadinima ir kelia
+    //Saving image name and path from phone
     final path = mealImg!.files.single.path!;
-    final fileName = mealImg.files.single.name;
-
-    //testing
-    print(path);
-    print(fileName);
+    final fileName = mealImg.files.single.name; 
   }
 }
