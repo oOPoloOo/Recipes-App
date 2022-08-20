@@ -41,36 +41,7 @@ final StorageServices storage = StorageServices();
       ),
       //adaryt, kad nereiktu firebase_storage naudot
       body: Column(
-        children: [
-          FutureBuilder(
-            future: storage.listFiles(),
-            builder: (BuildContext context,
-            AsyncSnapshot<firebase_storage.ListResult> snapshot) 
-            {
-               if(snapshot.connectionState == ConnectionState.done &&
-               snapshot.hasData)
-               {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  height: 50,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data!.items.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index){
-                     return Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: ElevatedButton(
-                          onPressed: (){}, 
-                          child: Text(snapshot.data!.items[index].name),),
-                     );
-                    } 
-                  ),
-                );
-               }  
-               return Text("Kazkas blogai");  
-            },
-          ),
+        children: [          
           FutureBuilder(
             future: storage.downloadImgURL('Screenshot from 2022-08-20 09-58-19.png'),
             builder: (BuildContext context,
