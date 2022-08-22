@@ -7,10 +7,23 @@ import 'package:recipes_app/model/models.dart';
 
  class DatabaseServices {
 
-  Stream<List<Recipe>> readRecipes() => FirebaseFirestore.instance
+ final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  //Using with StreamBuilder
+  Stream<List<Recipe>> readRecipesStream() => FirebaseFirestore.instance
   .collection('Recipes')// Recipes collection
   .snapshots() // All collection documents with json info
   .map((snapshot) => snapshot.docs.map((doc) => Recipe.fromJson(doc.data())).toList());
+
+  //Using with QuerySnapshot
+  Future<List<Recipe>> readRecipesQuery() async {
+   QuerySnapshot<Map<String, dynamic>> snapshot = await
+   _db.collection('Recipes').get();
+
+   return snapshot.docs
+        .map((docSnapshot) => Recipe.fromDocSnap(docSnapshot))
+        .toList();
+  }
 
   //
   writeRecipeImg() async {

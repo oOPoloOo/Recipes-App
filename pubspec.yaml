@@ -40,6 +40,8 @@ dependencies:
   firebase_storage: ^10.3.6
   file_picker: ^5.0.1
   tuple: ^2.0.0
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
