@@ -34,7 +34,7 @@ final StorageServices storage = StorageServices();
       body: Column(
         children: [          
           FutureBuilder(
-            future: storage.downloadImgURL('Screenshot from 2022-08-20 09-58-19.png'),
+            future: storage.downloadImgURL('lasagna.jpg'),
             builder: (BuildContext context,
             AsyncSnapshot<String> snapshot) 
             {
