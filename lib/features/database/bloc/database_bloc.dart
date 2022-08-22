@@ -11,14 +11,29 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   final DatabaseServices _databaseServices;
   
   DatabaseBloc(this._databaseServices) : super(DatabaseInitial()) {
-    on<DatabaseFetched>(_fetchRecipeData);
+    on<DatabaseLoad>(_fetchRecipeData);
+    on<DatabaseRefresh>(_refreshRecipeData);
   }
 
-  _fetchRecipeData(DatabaseFetched event, Emitter<DatabaseState> emit) async {
+  _fetchRecipeData(DatabaseLoad event, Emitter<DatabaseState> emit) async {
     try
     {
+      emit(DatabaseLoading());
       List<Recipe> listofUserData = await _databaseServices.readRecipesQuery();
-      emit(DatabaseSuccess(listofUserData));
+      emit(DatabaseLoaded(listofUserData));
+    }
+    on Exception 
+    {
+      emit(DatabaseError());
+    }     
+  }
+
+   _refreshRecipeData(DatabaseRefresh event, Emitter<DatabaseState> emit) async {
+    try
+    {
+      emit(DatabaseRefreshing());
+      List<Recipe> listofUserData = await _databaseServices.readRecipesQuery();
+      emit(DatabaseLoaded(listofUserData));
     }
     on Exception 
     {

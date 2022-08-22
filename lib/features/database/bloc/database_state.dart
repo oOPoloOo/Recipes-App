@@ -10,14 +10,18 @@ abstract class DatabaseState extends Equatable {
 
 class DatabaseInitial extends DatabaseState {}
 
-class DatabaseSuccess extends DatabaseState {
+class DatabaseLoading extends DatabaseState {}
+
+class DatabaseLoaded extends DatabaseState {
   final List<Recipe> listOfRecipeData;
   //final String? displayName;
-  const DatabaseSuccess(this.listOfRecipeData);
+  const DatabaseLoaded(this.listOfRecipeData);
 
   @override
   List<Object?> get props => [listOfRecipeData];
 }
+
+class DatabaseRefreshing extends DatabaseState {}
 
 class DatabaseError extends DatabaseState {
     @override

@@ -55,55 +55,48 @@ var backColor = Colors.amber[400];
               ),
               Container(                  
                   padding: EdgeInsets.all(20),
-                  child: BlocBuilder<DatabaseBloc,DatabaseState>(
-                    builder: (context, state) {
+                  child: 
+                  RefreshIndicator(
+                    onRefresh: () async  {
 
-                      if (state is DatabaseInitial) {
-                        context.read<DatabaseBloc>().add(DatabaseFetched());
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      else if (state is DatabaseSuccess) {
-                        if (state.listOfRecipeData.isEmpty) {
-                          return const Center(
-                            child: Text("No data"),
-                          );
-                        }
-                        else 
-                        {
-                          //display list
-                          final recipes = state.listOfRecipeData;                    
-                           return ListView( children: recipes.map(rTile.buildRecipeCard).toList());
-                        }
-                      }
-                      else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                      BlocProvider.of<DatabaseBloc>(context).add(DatabaseRefresh()); 
+                       
+                      //Added bacause requires future
+                      await Future.delayed(const Duration(milliseconds: 50));           
+                     
                     },
-                  )
-
-
-                  // StreamBuilder<List<Recipe>>(
-                  // stream: database.readRecipesStream(),
-                  // builder: (context, snapshot) {
-                  //       if(snapshot.hasError){      
-                         
-                  //           return Text('error');
-                
-                  //       } else if(snapshot.hasData){
-                
-                  //         final users = snapshot.data!;                    
-                  //         return ListView( children: users.map(rTile.buildRecipeCard).toList());   
-                
-                  //       }
-                  //       else
-                  //       {                     
-                  //         return Center(child: CircularProgressIndicator());
-                  //       }
-                
-                  //       //Think of a way how to remove this!!
-                  //       return Text('keistas atvejis');
-                  //     },
-                  //   ),
+                    child: 
+                    BlocBuilder<DatabaseBloc,DatabaseState>(
+                      buildWhen: (previous, current) => current is DatabaseLoaded,
+                      builder: (context, state) {
+                  
+                        if (state is DatabaseInitial) {
+                          context.read<DatabaseBloc>().add(DatabaseLoad());
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        else if (state is DatabaseLoaded) {
+                          if (state.listOfRecipeData.isEmpty) {
+                            return const Center(
+                              child: Text("No data"),
+                            );
+                          }
+                          else 
+                          {
+                            //display list
+                            final recipes = state.listOfRecipeData;                    
+                             return ListView( 
+                                 // ENABLE REFRESH INDICATOR
+                                 physics: AlwaysScrollableScrollPhysics(),
+                                 children: recipes.map(rTile.buildRecipeCard).toList()
+                              );
+                          }
+                        }
+                        else {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
+                   )                 
                   ),
               ] 
               ),
