@@ -32,7 +32,7 @@ var backColor = Colors.amber[400];
                        actions: [
                         IconButton(
                           //Why not working with /details !!
-                          onPressed: (){Get.to(RecipeDetails());},
+                          onPressed: (){Get.to(AddRecipeScreen());},
                           icon: Icon(Icons.add)
                           ),
                           IconButton(

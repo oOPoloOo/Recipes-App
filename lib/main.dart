@@ -8,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/app.block.observer.dart';
 import 'features/database/bloc/database_bloc.dart';
 import 'repositories/recipes.repository.dart';
+import 'features/duration_picker/bloc/duration_picker_bloc.dart';
+import 'package:recipes_app/features/duration_picker/bloc/duration_picker_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +27,19 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DatabaseBloc(RecipesRepository()),
+    return MultiBlocProvider(
+      providers: [
+           BlocProvider(
+            create: (context) => DatabaseBloc(RecipesRepository()),
+           ),
+           BlocProvider(
+            create: (context) => DurationPickerBloc(),
+           ),
+      ],
       child: GetMaterialApp(
         getPages: AppRoutes.routes,
         initialRoute: '/home',
-      ),
+      ),     
     );
   }
 }
