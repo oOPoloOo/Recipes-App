@@ -1,73 +1,107 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:recipes_app/model/models.dart';
+
+// ignore_for_file: unnecessary_new, prefer_const_constructors
+
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
 import 'screens.export.dart';
+import 'package:recipes_app/widgets/widgets.export.dart';
+import 'package:recipes_app/helpers/curved.background.line.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipes_app/features/database/bloc/database_bloc.dart';
 
 
 
 
-class HomeScreen extends StatelessWidget {
-  // const HomeScreen({Key? key}) : super(key: key);
-  
+class HomeScreen extends StatelessWidget{
+
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
+final RecipeTile rTile = RecipeTile();
+var backColor = Colors.amber[400];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Cook Book'),
-        actions: [
-          IconButton(
-            //Issiaiskint kodel neveikia su /route tekstu
-            onPressed: (){Get.to(RecipeDetails());},
-             icon: Icon(Icons.add)
-             ),
-             IconButton(
-            onPressed: (){},
-             icon: Icon(Icons.search)
-             ),
-        ],
-      ),
-      body: StreamBuilder<List<Recipe>>(
-        stream: database.readRecipes(),
-        builder: (context, snapshot) {
-              if(snapshot.hasError){               
-                print('fine');
-                  return Text('error');
+    return  Scaffold(            
+                appBar:  PreferredSize(
+                  preferredSize: Size.fromHeight(50.0),
+                  child: AppBar(
+                       backgroundColor: backColor,
+                       elevation: 0.0,       
+                       title: Text('Cook Book'),
+                       actions: [
+                        IconButton(
+                          //Why not working with /details !!
+                          onPressed: (){Get.to(AddRecipeScreen());},
+                          icon: Icon(Icons.add)
+                          ),
+                          IconButton(
+                          onPressed: (){},
+                          icon: Icon(Icons.search)
+                          ),
+                        ],                        
+                      ),
+                ),
+        body: 
+        // SafeArea(
+        //   child: 
+          Stack(
 
+            children: <Widget> [
+              ClipPath(
+                clipper: CurvedClipPath(),
+                child: Container(
+                  color: backColor,
+                ),
+              ),
+              Container(                  
+                  padding: EdgeInsets.all(20),
+                  child: 
+                  RefreshIndicator(
+                    onRefresh: () async  {
 
-              } else if(snapshot.hasData){
-                 final users = snapshot.data!;  
-                  print('fine'); // cia ateina
-                 return ListView( children: users.map(buildRecipe).toList());   
-                
-              }
-              else
-              {        
-                 print('else');        
-                return Center(child: CircularProgressIndicator(),);
-              }
-
-              //Pataisyt sita
-             return Text('keistas atvejis');
-            },
-
-        ),
-    );
+                      BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad()); 
+                       
+                      //Added bacause requires future
+                      await Future.delayed(const Duration(milliseconds: 50));           
+                     
+                    },
+                    child: 
+                    BlocBuilder<DatabaseBloc,DatabaseState>(
+                      buildWhen: (previous, current) => current is DatabaseLoaded,
+                      builder: (context, state) {
+                  
+                        if (state is DatabaseInitial) {
+                          context.read<DatabaseBloc>().add(DatabaseLoad());
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        else if (state is DatabaseLoaded) {
+                          if (state.listOfRecipeData.isEmpty) {
+                            return const Center(
+                              child: Text("No data"),
+                            );
+                          }
+                          else 
+                          {
+                            //display list
+                            final recipes = state.listOfRecipeData;                    
+                             return ListView( 
+                                 // ENABLE REFRESH INDICATOR
+                                 physics: AlwaysScrollableScrollPhysics(),
+                                 children: recipes.map((recipe) => rTile.buildRecipeCard(recipe!, context)).toList()
+                              );
+                          }
+                        }
+                        else {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
+                   )                 
+                  ),
+              ] 
+            ),
+        // )        
+      );   
+    }
   }
-}
-
-//Perkelt i widgets aplnka!!
-//Pridet Nutrauka
-Widget buildRecipe(Recipe recipe) => ListTile(
-
-
-  //leading: CircleAvatar(child:Text(recipe.name)), // paveiksliukas
-  title: Text(recipe.name ), // didelis txt
-  subtitle: Text( '${recipe.cookTime}') // mazas txt zemiau
-  );

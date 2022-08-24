@@ -7,28 +7,43 @@ import 'package:recipes_app/model/models.dart';
 
  class DatabaseServices {
 
-  Stream<List<Recipe>> readRecipes() => FirebaseFirestore.instance
-  .collection('Recipes')// kolekcija recipes
-  .snapshots() // visi jos dokumentai json info
+ final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  //Using with StreamBuilder
+  Stream<List<Recipe>> readRecipesStream() => FirebaseFirestore.instance
+  .collection('Recipes')// Recipes collection
+  .snapshots() // All collection documents with json info
   .map((snapshot) => snapshot.docs.map((doc) => Recipe.fromJson(doc.data())).toList());
 
-  writeRecipeImg() async {
+  //Using with QuerySnapshot
+  Future<List<Recipe>> readRecipesQuery() async {
+   QuerySnapshot<Map<String, dynamic>> snapshot = await
+   _db.collection('Recipes').get();
+
+   return snapshot.docs
+        .map((docSnapshot) => Recipe.fromDocSnap(docSnapshot))
+        .toList();
+  }
+
+   uploadRecipeData(Recipe recipe) async {
     
-    //nustatau tinkamu failu param
-    final    mealImg = await FilePicker.platform.pickFiles(
+    await _db.collection('Recipes').doc(recipe.name).set(recipe.toJson());
+  }
+   
+  // Move to somewhere else
+   takeFromPhoneRecipeImg() async {
+    
+    //Configuring parameters of whanted files
+    final mealImg = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
       allowedExtensions: ['png','jpg'],
     );
 
-    // tikrinu ar null, jei nebuvo rasta
+    //Check if null (implement)
 
-    //issaugau pavadinima ir kelia
+    //Saving image name and path from phone
     final path = mealImg!.files.single.path!;
-    final fileName = mealImg.files.single.name;
-
-    //testing
-    print(path);
-    print(fileName);
+    final fileName = mealImg.files.single.name; 
   }
 }
