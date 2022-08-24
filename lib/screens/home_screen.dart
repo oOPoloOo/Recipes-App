@@ -60,7 +60,7 @@ var backColor = Colors.amber[400];
                   RefreshIndicator(
                     onRefresh: () async  {
 
-                      BlocProvider.of<DatabaseBloc>(context).add(DatabaseRefresh()); 
+                      BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad()); 
                        
                       //Added bacause requires future
                       await Future.delayed(const Duration(milliseconds: 50));           
@@ -88,7 +88,7 @@ var backColor = Colors.amber[400];
                              return ListView( 
                                  // ENABLE REFRESH INDICATOR
                                  physics: AlwaysScrollableScrollPhysics(),
-                                 children: recipes.map((recipe) => rTile.buildRecipeCard(recipe, context)).toList()
+                                 children: recipes.map((recipe) => rTile.buildRecipeCard(recipe!, context)).toList()
                               );
                           }
                         }

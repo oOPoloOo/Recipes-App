@@ -26,7 +26,8 @@ import 'package:recipes_app/model/models.dart';
   }
 
    uploadRecipeData(Recipe recipe) async {
-    await _db.collection("Recipes").doc(recipe.name).set(recipe.toJson());
+    
+    await _db.collection('Recipes').doc(recipe.name).set(recipe.toJson());
   }
    
   // Move to somewhere else

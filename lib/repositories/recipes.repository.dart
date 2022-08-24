@@ -13,7 +13,7 @@ DatabaseServices db = DatabaseServices();
       return db.readRecipesQuery();
     }
 
-    Future<void> writeRecipes(Recipe recipe) {
+    Future<void> writeRecipe(Recipe recipe) {
       return db.uploadRecipeData(recipe);
     }
 }

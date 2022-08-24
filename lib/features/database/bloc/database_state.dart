@@ -1,7 +1,7 @@
 part of 'database_bloc.dart';
 
 
-abstract class DatabaseState extends Equatable {
+ class DatabaseState extends Equatable {
   const DatabaseState();
   
   @override
@@ -12,12 +12,12 @@ class DatabaseInitial extends DatabaseState {}
 
 class DatabaseLoading extends DatabaseState {}
 
-class DatabaseRefreshing extends DatabaseState {}
 
 class DatabaseLoaded extends DatabaseState {
-  final List<Recipe> listOfRecipeData;
+  final List<Recipe?> listOfRecipeData;
 
   const DatabaseLoaded(this.listOfRecipeData);
+   
 
   @override
   List<Object?> get props => [listOfRecipeData];
@@ -32,7 +32,6 @@ class DatabaseUploading extends DatabaseState {
   List<Object?> get props => [newRecipe];
 }
 
-class DatabaseUploaded extends DatabaseState {}
 
 class DatabaseError extends DatabaseState {
     @override
