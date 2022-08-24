@@ -6,11 +6,15 @@ import 'package:get/get.dart';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:recipes_app/features/duration_picker/bloc/duration_picker_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipes_app/model/models.dart';
+import 'package:recipes_app/features/database/bloc/database_bloc.dart';
 
 class AddRecipeScreen extends StatelessWidget {
   final DatabaseServices database = DatabaseServices();
   final StorageServices storage = StorageServices();
-  final _text = TextEditingController();
+  final _mealNameController = TextEditingController();
+   final _descriptionController = TextEditingController();
+  //final _cookTimeController = TextEditingController();
   bool _validate = false;
   Duration _duration = const Duration(hours: 0, minutes: 0);
 
@@ -63,7 +67,7 @@ class AddRecipeScreen extends StatelessWidget {
                             child: TextField(
                               minLines: 1,
                               maxLines: null, // Text fills parent
-                              controller: _text,
+                              controller: _mealNameController,
                               style: mealNameStyle,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -80,9 +84,10 @@ class AddRecipeScreen extends StatelessWidget {
                           child: Container(
                             width: constraint.biggest.width * 0.85,
                             height: constraint.biggest.height * 0.2,
-                            child: const TextField(
+                            child:  TextField(
                               minLines: 1,
                               maxLines: null,
+                              controller: _descriptionController,
                               style: TextStyle(fontSize: 19),
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
@@ -100,6 +105,7 @@ class AddRecipeScreen extends StatelessWidget {
                                       context: context,
                                       initialTime: const Duration(minutes: 0));
                                       durtionBloc.add(DurationPickerEvent( cookDuration: _duration!.inMinutes));
+                                      
                                 },
                             child: Container(
                                decoration: new BoxDecoration(
@@ -133,9 +139,22 @@ class AddRecipeScreen extends StatelessWidget {
                           flex: 1,
                           child: GestureDetector(
                             onTap: () {
-                              _text.text.isEmpty
-                                  ? _validate = true
-                                  : _validate = false;
+                              // _text.text.isEmpty
+                              //     ? _validate = true
+                              //     : _validate = false;
+                              if(_descriptionController.text != ''
+                               && _mealNameController.text != '' 
+                               && durtionBloc.state.cookDuration != 0){
+                                  
+                                 var newRecipe = 
+                                 Recipe(
+                                 name: _mealNameController.text, 
+                                 imgName: 'Fake img name', 
+                                 cookTime: durtionBloc.state.cookDuration, 
+                                 imgURL: 'Fake img url');
+                                 
+                                 BlocProvider.of<DatabaseBloc>(context).add(DatabaseUpload(newRecipe: newRecipe));
+                               }
                             },
                             child: Container(
                                 alignment: Alignment.center,

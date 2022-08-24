@@ -14,4 +14,13 @@ class DatabaseLoad extends DatabaseEvent {
   // List<Object?> get props => [displayName];
 }
 
+class DatabaseUpload extends DatabaseEvent {
+  final Recipe newRecipe;
+
+  const DatabaseUpload({required this.newRecipe});
+
+  @override
+  List<Object?> get props => [newRecipe];
+}
+
 class DatabaseRefresh extends DatabaseEvent {}

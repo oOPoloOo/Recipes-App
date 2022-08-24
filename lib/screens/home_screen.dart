@@ -1,7 +1,7 @@
 
 // ignore_for_file: unnecessary_new, prefer_const_constructors
 
-import 'package:recipes_app/model/models.dart';
+
 import 'package:flutter/material.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';

@@ -12,4 +12,8 @@ DatabaseServices db = DatabaseServices();
     Future<List<Recipe>> readRecipes() {
       return db.readRecipesQuery();
     }
+
+    Future<void> writeRecipes(Recipe recipe) {
+      return db.uploadRecipeData(recipe);
+    }
 }
