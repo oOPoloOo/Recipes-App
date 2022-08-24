@@ -1,6 +1,7 @@
-// ignore_for_file: unnecessary_const, prefer_const_constructors
+// ignore_for_file: unnecessary_const, prefer_const_constructors, unnecessary_new
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
 import 'package:duration_picker/duration_picker.dart';
@@ -9,11 +10,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/features/database/bloc/database_bloc.dart';
 import 'screens.export.dart';
+import 'package:recipes_app/repositories/recipes.repository.dart';
 
 class AddRecipeScreen extends StatelessWidget {
 
   final DatabaseServices database = DatabaseServices();
   final StorageServices storage = StorageServices();
+ 
   final _mealNameController = TextEditingController();
   final _descriptionController = TextEditingController(); 
 
@@ -44,6 +47,18 @@ class AddRecipeScreen extends StatelessWidget {
                     child: Image.asset(
                       'images/plateBlack.jpg',
                     )),
+                    Positioned(
+                      top: media.height * 0.10,
+                      left: media.width * 0.38,
+                      child: GestureDetector(
+                        onTap: () => _selectPhoto(context),
+                        child: Icon(
+                          Icons.add_rounded,
+                          color: Colors.grey.withOpacity(0.3),
+                          size: 100,
+                        ),
+                      ),
+                    ),
                 Positioned(
                   top: media.height * 0.26,
                   left: (media.width - media.width * 0.85) / 2,
@@ -104,12 +119,10 @@ class AddRecipeScreen extends StatelessWidget {
                                             context: context,
                                             initialTime: const Duration(minutes: 0));
                                             durtionBloc.add(DurationPickerEvent( cookDuration: _duration!.inMinutes));
-      
-                                            
                                       },
                                   child: Container(
-                                     decoration: new BoxDecoration(
-                                      color:   const Color(0xFFA0A0A0).withOpacity(0.35)
+                                        decoration: new BoxDecoration(
+                                        color:   const Color(0xFFA0A0A0).withOpacity(0.35)
                                       ),
                                     child: Container(
                                         width: constraint.biggest.width,
@@ -145,7 +158,7 @@ class AddRecipeScreen extends StatelessWidget {
                                         imgName: 'Fake img name', 
                                         cookTime: durtionBloc.state.cookDuration, 
                                         imgURL: 'Fake img url');
-                                        List<Recipe> oldRecipeList; // cia
+                                       
                                         BlocProvider.of<DatabaseBloc>(context).add(DatabaseUpload(newRecipe: newRecipe));
                                         BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad());                                        
                                         durtionBloc.add(DurationPickerEvent( cookDuration: 0));      
@@ -178,4 +191,30 @@ class AddRecipeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+   final RecipesRepository repo = RecipesRepository();
+Future _selectPhoto(BuildContext context) async {
+  await showModalBottomSheet(
+    context: context, 
+    builder: (context) => Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          leading: Icon(Icons.camera), 
+          title:  Text('Camera'), 
+          onTap: (){
+            Navigator.of(context).pop();
+          repo.pickRecipeImg(ImageSource.camera);
+        }),
+        ListTile(
+          leading: Icon(Icons.filter), 
+          title:  Text('Pick a file'), 
+          onTap: (){
+             Navigator.of(context).pop();
+             //Pakeist, kad butu su bloc
+          repo.pickRecipeImg(ImageSource.gallery);
+        }),
+      ],
+    ));
 }

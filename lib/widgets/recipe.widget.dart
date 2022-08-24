@@ -21,55 +21,58 @@ class RecipeTile  {
           //Add functionality
           print('TAPPED CARD');
         },
-        child: Container(
-          padding: EdgeInsets.only(bottom: 23),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30.0), //clipping the whole widget
-            child: Container(     
-                height: MediaQuery.of(context).size.height * 0.58, //I adjusted here for responsiveness problems on my device
-                width: MediaQuery.of(context).size.width * 0.85,                
-                color: Colors.white,
-                child: LayoutBuilder(
-                  builder: (context, constraint) {
-                    return Stack(
-                      children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(recipe.imgURL), 
-                                fit: BoxFit.fill
-                                ),
-                            ),
-                          //   child:  Text(recipe.name),
-                          ),                          
-                        Positioned(
-                          bottom: 0.0,
-                          child: blur.buildBlur(
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: MediaQuery.of(context).size.height * 0.15,
-                              width: constraint.biggest.width,
-                              color: Colors.transparent.withOpacity(0.4),
-                              // ignore: prefer_const_constructors
+        child: AspectRatio(
+          aspectRatio: 6/8,
+          child: Container(
+            padding: EdgeInsets.only(bottom: 23),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30.0), //clipping the whole widget
+              child: Container(     
+                  height: MediaQuery.of(context).size.height * 0.58, //I adjusted here for responsiveness problems on my device
+                  width: MediaQuery.of(context).size.width * 0.85,                
+                  color: Colors.white,
+                  child: LayoutBuilder(
+                    builder: (context, constraint) {
+                      return Stack(
+                        children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(recipe.imgURL), 
+                                  fit: BoxFit.fill
+                                  ),
+                              ),
+                            //   child:  Text(recipe.name),
+                            ),                          
+                          Positioned(
+                            bottom: 0.0,
+                            child: blur.buildBlur(
                               child: Container(
-                                width: constraint.biggest.width * 0.85,
-                                child: Text(
-                                  'Healthy Vegetarian And Rice',        
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30.0,
-                                    fontWeight: FontWeight.w600
-                                    )                         
+                                alignment: Alignment.center,
+                                height: MediaQuery.of(context).size.height * 0.15,
+                                width: constraint.biggest.width,
+                                color: Colors.transparent.withOpacity(0.4),
+                                // ignore: prefer_const_constructors
+                                child: Container(
+                                  width: constraint.biggest.width * 0.85,
+                                  child: Text(
+                                    'Healthy Vegetarian And Rice',        
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.w600
+                                      )                         
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),                  
+                        ],
+                      );
+                    },
+                  ),
+                ),                  
+            ),
           ),
         ),
       );    
