@@ -25,8 +25,13 @@ import 'package:recipes_app/model/models.dart';
         .toList();
   }
 
-  //
-  writeRecipeImg() async {
+   uploadRecipeData(Recipe recipe) async {
+    
+    await _db.collection('Recipes').doc(recipe.name).set(recipe.toJson());
+  }
+   
+  // Move to somewhere else
+   takeFromPhoneRecipeImg() async {
     
     //Configuring parameters of whanted files
     final mealImg = await FilePicker.platform.pickFiles(

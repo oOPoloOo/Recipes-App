@@ -11,8 +11,8 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   final RecipesRepository _recipesRepo;
   
   DatabaseBloc(this._recipesRepo) : super(DatabaseInitial()) {
-    on<DatabaseLoad>(_fetchRecipeData);
-    on<DatabaseRefresh>(_refreshRecipeData);
+    on<DatabaseLoad>(_fetchRecipeData);    
+    on<DatabaseUpload>(_uploadRecipeData);
   }
 
   _fetchRecipeData(DatabaseLoad event, Emitter<DatabaseState> emit) async {
@@ -20,10 +20,7 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     {
       emit(DatabaseLoading());
       List<Recipe> listofUserData = await _recipesRepo.readRecipes();
-      // String meatball = await _recipesRepo.downloadImgURL('meatbals.jpg');
-      // String spagetti = await _recipesRepo.downloadImgURL('spagetti.jpg');
-      // String lasagna = await _recipesRepo.downloadImgURL('lasagna.jpg');
-      // String sausages = await _recipesRepo.downloadImgURL('sausages.jpg');
+      // String meatball = await _recipesRepo.downloadImgURL('meatbals.jpg');      
       emit(DatabaseLoaded(listofUserData));
     }
     on Exception 
@@ -32,12 +29,11 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     }     
   }
 
-   _refreshRecipeData(DatabaseRefresh event, Emitter<DatabaseState> emit) async {
+   _uploadRecipeData(DatabaseUpload event, Emitter<DatabaseState> emit) async {
     try
     {
-      emit(DatabaseRefreshing());
-      List<Recipe> listofUserData = await _recipesRepo.readRecipes();
-      emit(DatabaseLoaded(listofUserData));
+      emit(DatabaseUploading(newRecipe: event.newRecipe)); 
+      await _recipesRepo.writeRecipe(event.newRecipe);          
     }
     on Exception 
     {

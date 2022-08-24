@@ -1,7 +1,7 @@
 
 // ignore_for_file: unnecessary_new, prefer_const_constructors
 
-import 'package:recipes_app/model/models.dart';
+
 import 'package:flutter/material.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
@@ -22,8 +22,7 @@ final RecipeTile rTile = RecipeTile();
 var backColor = Colors.amber[400];
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-       // backgroundColor: Colors.amber[400],       
+    return  Scaffold(            
                 appBar:  PreferredSize(
                   preferredSize: Size.fromHeight(50.0),
                   child: AppBar(
@@ -33,7 +32,7 @@ var backColor = Colors.amber[400];
                        actions: [
                         IconButton(
                           //Why not working with /details !!
-                          onPressed: (){Get.to(RecipeDetails());},
+                          onPressed: (){Get.to(AddRecipeScreen());},
                           icon: Icon(Icons.add)
                           ),
                           IconButton(
@@ -43,8 +42,10 @@ var backColor = Colors.amber[400];
                         ],                        
                       ),
                 ),
-        body: SafeArea(
-          child: Stack(
+        body: 
+        // SafeArea(
+        //   child: 
+          Stack(
 
             children: <Widget> [
               ClipPath(
@@ -59,7 +60,7 @@ var backColor = Colors.amber[400];
                   RefreshIndicator(
                     onRefresh: () async  {
 
-                      BlocProvider.of<DatabaseBloc>(context).add(DatabaseRefresh()); 
+                      BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad()); 
                        
                       //Added bacause requires future
                       await Future.delayed(const Duration(milliseconds: 50));           
@@ -87,7 +88,7 @@ var backColor = Colors.amber[400];
                              return ListView( 
                                  // ENABLE REFRESH INDICATOR
                                  physics: AlwaysScrollableScrollPhysics(),
-                                 children: recipes.map(rTile.buildRecipeCard).toList()
+                                 children: recipes.map((recipe) => rTile.buildRecipeCard(recipe!, context)).toList()
                               );
                           }
                         }
@@ -99,8 +100,8 @@ var backColor = Colors.amber[400];
                    )                 
                   ),
               ] 
-              ),
-            )        
-        );   
-        }
-      }
+            ),
+        // )        
+      );   
+    }
+  }
