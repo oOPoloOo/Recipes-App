@@ -11,6 +11,7 @@ import 'features/database/bloc/database_bloc.dart';
 import 'repositories/recipes.repository.dart';
 import 'features/duration_picker/bloc/duration_picker_bloc.dart';
 import 'package:recipes_app/features/duration_picker/bloc/duration_picker_bloc.dart';
+import 'features/image_picker/bloc/image_picker_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,6 +59,9 @@ class _MyAppState extends State<MyApp> {
            ),
            BlocProvider(
             create: (context) => DurationPickerBloc(),
+           ),
+           BlocProvider(
+            create: (context) => ImagePickerBloc(RecipesRepository()),
            ),
       ],
       child: GetMaterialApp(

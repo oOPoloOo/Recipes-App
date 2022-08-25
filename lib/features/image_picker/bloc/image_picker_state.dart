@@ -6,5 +6,29 @@ abstract class ImagePickerState extends Equatable {
   @override
   List<Object> get props => [];
 }
-
 class ImagePickerInitial extends ImagePickerState {}
+
+
+
+
+class ImagePickerPreview extends ImagePickerState {
+  final PhotoInfo photoInfo;
+
+  const ImagePickerPreview({required this.photoInfo});
+   
+
+  @override
+  List<Object> get props => [photoInfo];
+}
+
+class ImagePickerDone extends ImagePickerState {
+  final Recipe recipeInfo;
+
+  const ImagePickerDone({required this.recipeInfo});   
+
+  @override
+  List<Object> get props => [recipeInfo];
+}
+
+
+

@@ -1,13 +1,41 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/rendering.dart';
+import 'package:recipes_app/model/models.dart';
+import 'package:recipes_app/model/photo.info.dart';
+import 'package:recipes_app/repositories/recipes.repository.dart';
+import 'dart:io';
 
 part 'image_picker_event.dart';
 part 'image_picker_state.dart';
 
 class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
-  ImagePickerBloc() : super(ImagePickerInitial()) {
-    on<ImagePickerEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    final RecipesRepository _recipesRepo;
+    
+  ImagePickerBloc(this._recipesRepo) : super(ImagePickerInitial()) {   
+    on<ChooseImage>(_choseImage);
+    on<PushImage>(_pushImage);
+  }
+
+  _choseImage(ChooseImage event, Emitter<ImagePickerState> emit) async {
+    
+      
+        //Cropped and compressed image file saved in temp dir path
+        File tidyImg =  await _recipesRepo.pickRecipeImg(event.photoInfo.imgSource!);
+      
+      emit(ImagePickerPreview(photoInfo: PhotoInfo(path: tidyImg.path)));
+   
+     // await _recipesRepo.pickRecipeImg(event.photoInfo.imgSource!);
+       
+  }
+
+   _pushImage(PushImage event, Emitter<ImagePickerState> emit) async {
+    
+      
+       
+     // TO DO///
+     // await _recipesRepo._uploadFile(event);
+       
   }
 }
+

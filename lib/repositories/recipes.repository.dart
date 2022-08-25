@@ -30,17 +30,6 @@ DatabaseServices db = DatabaseServices();
   
   Future pickRecipeImg(ImageSource source) async {
     
-    //With FilePicker
-    //Configuring parameters of wanted files and pick one
-    // final mealImg = await FilePicker.platform.pickFiles(
-    //   allowMultiple: false,
-    //   type: FileType.custom,
-    //   allowedExtensions: ['png','jpg'],
-    // );
-     // //Saving image name and path from phone
-    // final path = mealImg!.files.single.path!;
-    // final fileName = mealImg.files.single.name;
-    
     //With ImagePicker
     final ImagePicker _picker = ImagePicker();
 
@@ -59,7 +48,8 @@ DatabaseServices db = DatabaseServices();
     //Compressing the image
     File finalFile = await compressImage(file.path, 35);
    
-    await _uploadFile(finalFile.path);
+   return finalFile;
+    //await _uploadFile(finalFile.path);
   }
  
   //Optional, already compressed one time when picked file
