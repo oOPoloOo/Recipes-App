@@ -52,38 +52,52 @@ class AddRecipeScreen extends StatelessWidget {
                   if(imgState is ImagePickerInitial)
                   {
                      return ShaderMask(
-                      shaderCallback: (rect) {
-                        // ignore: prefer_const_constructors
-                        return LinearGradient(
-                          begin: Alignment.center,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.black, Colors.transparent],
-                        ).createShader(
-                            Rect.fromLTRB(0, 0, rect.width, rect.height));
-                      },
-                      blendMode: BlendMode.dstIn,
-                      child: Image.asset(
-                        'images/plateBlack.jpg',
-                      ));
+                        shaderCallback: (rect) {
+                          // ignore: prefer_const_constructors
+                          return LinearGradient(
+                            begin: Alignment.center,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.black, Colors.transparent],
+                          ).createShader(
+                              Rect.fromLTRB(0, 0, rect.width, rect.height));
+                        },
+                        blendMode: BlendMode.dstIn,
+                        child: Image.asset(
+                          'images/plateBlack.jpg',
+                        ));
+                    
                   } 
                    if (imgState is ImagePickerPreview)
                   {
                      imgLocalPath = imgState.photoInfo.localPath;
 
-                     return ShaderMask(
-                      shaderCallback: (rect) {
-                        // ignore: prefer_const_constructors
-                        return LinearGradient(
-                          begin: Alignment.center,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.black, Colors.transparent],
-                        ).createShader(
-                            Rect.fromLTRB(0, 0, rect.width, rect.height));
-                      },
-                      blendMode: BlendMode.dstIn,
-                      child: Image.file(File(imgLocalPath))
-                      );
-                  }
+                     return //Container(
+                      
+                        ShaderMask(
+                        shaderCallback: (rect) {
+                          // ignore: prefer_const_constructors
+                          return LinearGradient(
+                            begin: Alignment.center,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.black, Colors.transparent],
+                          ).createShader(
+                              Rect.fromLTRB(0, 0, rect.width, rect.height));
+                        },
+                        blendMode: BlendMode.dstIn,
+                        child: AspectRatio(
+                          aspectRatio: 3/3,
+                          child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(File(imgLocalPath)), 
+                                    fit: BoxFit.cover
+                                    ),
+                                ),
+                              
+                              ),
+                          ),  
+                        );
+                     }
                   else {
                   return Text("Something is wrong");
                   }

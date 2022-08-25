@@ -32,7 +32,21 @@ class RecipeDetailsScreen extends StatelessWidget {
                   ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                 },
                 blendMode: BlendMode.dstIn,
-                child: Image.network(state.recipe.imgURL)
+                child: AspectRatio(
+                          aspectRatio: 3/3,
+                          child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(state.recipe.imgURL), 
+                                    fit: BoxFit.cover
+                                    ),
+                                ),
+                              
+                              ),
+                          ), 
+                
+                
+                
                 ),            
             Positioned(
               top: media.height * 0.40,

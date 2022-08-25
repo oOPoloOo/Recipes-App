@@ -48,6 +48,7 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
             _recipesRepo.writeRecipe(newRecipe);
 
            emit(ImagePickerDone(recipeInfo: newRecipe));
+           emit(ImagePickerInitial());
        
   }
   
