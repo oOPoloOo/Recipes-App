@@ -3,20 +3,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Recipe {
     
     final String name;
-    final String imgName;
+    final String recipeDesc;
     final int cookTime;  
-    final String imgURL;  
+    final String imgURL; 
+    final String? localImgPath; 
 
     Recipe({     
       required this.name,
-      required this.imgName,
+      required this.recipeDesc,
       required this.cookTime, 
-      required this.imgURL    
+      required this.imgURL,
+      this.localImgPath 
     });
     
     Map<String,dynamic> toJson() => {      
       'name': name,
-      'imgName': imgName,
+      'recipeDesc': recipeDesc,
       'imgURL': imgURL,
       'cookTime': cookTime,     
     };
@@ -24,7 +26,7 @@ class Recipe {
     //Using with 
     static Recipe fromJson(Map<String, dynamic> json) => Recipe(     
       name: json['name'],
-      imgName: json['imgName'],
+      recipeDesc: json['recipeDesc'],
       imgURL: json['imgURL'],
       cookTime: json['cookTime'],      
     );
@@ -32,7 +34,7 @@ class Recipe {
     //Using with QuerySnapshot
     static Recipe fromDocSnap(DocumentSnapshot<Map<String, dynamic>> json) => Recipe(     
       name: json.data()!['name'],
-      imgName: json.data()!['imgName'],
+      recipeDesc: json.data()!['recipeDesc'],
       imgURL: json.data()!['imgURL'],
       cookTime: json.data()!['cookTime'],      
     );

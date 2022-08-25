@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart'as firebase_core;
 import 'package:recipes_app/model/models.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:tuple/tuple.dart';
+import 'package:path/path.dart' as p;
 
 
  class StorageServices {  
@@ -31,6 +32,25 @@ import 'package:tuple/tuple.dart';
           print(e.code);  
       }
     }
+
+  Future<String> UploadFile2(String path) async{
+    //Creating storadge reference
+    final ref = storage.ref()
+        .child('test')// place
+        .child('${DateTime.now().toIso8601String() + p.basename(path)}');// name
+
+        //Puting file in storage. Path from phone: path
+        final result = await ref.putFile(File(path));
+
+        //Getting image URL
+        final imgURL = await result.ref.getDownloadURL();
+        
+
+        return imgURL;
+        //Save image url to local/ db??
+
+        //doing bloc state changes?
+  }
 
   Future<List<String>> pickRecipeImg() async {
     
@@ -75,4 +95,6 @@ import 'package:tuple/tuple.dart';
     String url = await storage.ref('test/$imageName').getDownloadURL();
     return url;
   }
+
+
 }
