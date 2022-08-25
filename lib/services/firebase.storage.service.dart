@@ -33,7 +33,7 @@ import 'package:path/path.dart' as p;
       }
     }
 
-  Future UploadFile2(String path) async{
+  Future<String> UploadFile2(String path) async{
     //Creating storadge reference
     final ref = storage.ref()
         .child('test')// place
@@ -45,6 +45,8 @@ import 'package:path/path.dart' as p;
         //Getting image URL
         final imgURL = await result.ref.getDownloadURL();
         
+
+        return imgURL;
         //Save image url to local/ db??
 
         //doing bloc state changes?

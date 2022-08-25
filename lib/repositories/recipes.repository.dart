@@ -67,7 +67,7 @@ DatabaseServices db = DatabaseServices();
     return result!;
   }
 
-  Future _uploadFile(String path) async {
-    storage.UploadFile2(path);
+  Future<String> uploadFile(String path) async {
+     return storage.UploadFile2(path);
   }
 }

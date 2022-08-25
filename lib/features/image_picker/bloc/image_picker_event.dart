@@ -17,6 +17,8 @@ class ChooseImage extends ImagePickerEvent {
   List<Object> get props => [photoInfo];
 }
 
+class  LoadedImage extends ImagePickerEvent {}
+
 class PushImage extends ImagePickerEvent {
   final Recipe recipeInfo;
 

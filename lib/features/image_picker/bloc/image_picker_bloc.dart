@@ -15,6 +15,8 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   ImagePickerBloc(this._recipesRepo) : super(ImagePickerInitial()) {   
     on<ChooseImage>(_choseImage);
     on<PushImage>(_pushImage);
+     on<LoadedImage>(_stopTakingSameImage);
+
   }
 
   _choseImage(ChooseImage event, Emitter<ImagePickerState> emit) async {
@@ -34,8 +36,23 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
       
        
      // TO DO///
-     // await _recipesRepo._uploadFile(event);
+     final imgURL = await _recipesRepo.uploadFile(event.recipeInfo.localImgPath!);
+      var recipe = event.recipeInfo;
+      var newRecipe =
+            Recipe(
+            name: recipe.name,
+            recipeDesc: recipe.recipeDesc,
+            cookTime: recipe.cookTime,
+            imgURL: imgURL            
+            );
+            _recipesRepo.writeRecipe(newRecipe);
+
+           emit(ImagePickerDone(recipeInfo: newRecipe));
        
+  }
+  
+  _stopTakingSameImage(LoadedImage event, Emitter<ImagePickerState> emit) async {
+      emit(ImageLoadedState());
   }
 }
 

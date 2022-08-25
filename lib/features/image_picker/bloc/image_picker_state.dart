@@ -8,6 +8,7 @@ abstract class ImagePickerState extends Equatable {
 }
 class ImagePickerInitial extends ImagePickerState {}
 
+class ImagePreviewLoaded extends ImagePickerState {}
 
 
 
@@ -30,5 +31,5 @@ class ImagePickerDone extends ImagePickerState {
   List<Object> get props => [recipeInfo];
 }
 
-
+class  ImageLoadedState extends ImagePickerState {}
 

@@ -35,12 +35,14 @@ Widget addScreenStack(
 
 
   return Stack(clipBehavior: Clip.none, children: [
-    BlocBuilder<ImagePickerBloc, ImagePickerState>(
-      builder: (imgContext, imgState) {
-        // return 
+    // BlocBuilder<ImagePickerBloc, ImagePickerState>(
+    //   buildWhen: (previous, current) => current is ImagePickerPreview,
+    //   builder: (imgContext, imgState) {
         
-        if(imgState is ImagePickerInitial){
-            return  ShaderMask(
+        
+        // if(imgState is ImagePickerInitial){
+            // return 
+             ShaderMask(
             shaderCallback: (rect) {
             // ignore: prefer_const_constructors
               return LinearGradient(
@@ -52,36 +54,39 @@ Widget addScreenStack(
             blendMode: BlendMode.dstIn,
             child: Image.asset(
               'images/plateBlack.jpg',
-            ));
-        }
-       if (imgState is ImagePickerPreview){   
-                            if (imgState.photoInfo.localPath.isEmpty) {
-                            return const Center(
-                              child: Text("No local path data"),
-                            );
-                          } else {
-                              imgLocalPath = imgState.photoInfo.localPath;
-         
-                              return  ShaderMask(
-                              shaderCallback: (rect) {
-                              // ignore: prefer_const_constructors
-                                return LinearGradient(
-                                  begin: Alignment.center,
-                                  end: Alignment.bottomCenter,
-                                  colors: [Colors.black, Colors.transparent],
-                                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-                              },
-                              blendMode: BlendMode.dstIn,
-                              child: Image.file(File(imgLocalPath))
-                              );
-                          }
+            )),
+        // }
+      //  if (imgState is ImagePickerPreview){   
+                        
+      //                         imgLocalPath = imgState.photoInfo.localPath;
+      //                          // imgLocalPath paima 
+                               
+                                
+      //                         return  ShaderMask(
+      //                         shaderCallback: (rect) {
+      //                         // ignore: prefer_const_constructors
+      //                           return LinearGradient(
+      //                             begin: Alignment.center,
+      //                             end: Alignment.bottomCenter,
+      //                             colors: [Colors.black, Colors.transparent],
+      //                           ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+      //                         },
+      //                         blendMode: BlendMode.dstIn,
+      //                         child: Image.file(File(imgLocalPath))
+      //                         );
+
+
+                          
           
-        } else {
-          return Text('Something went wrong!!!');
-        }
-         
-      },
-    ),
+      //   } else if(imgState is ImagePickerPreview && imgState.photoInfo.localPath.isNotEmpty){
+      //      BlocProvider.of<ImagePickerBloc>(context).add(LoadedImage());
+      //      return Container();
+      //   } else {
+
+      //   }
+          
+    //   },
+    // ),
     Positioned(
       top: media.height * 0.10,
       left: media.width * 0.38,
@@ -183,15 +188,17 @@ Widget addScreenStack(
                         if (_descriptionController.text != '' &&
                             _mealNameController.text != '' &&
                             durtionBloc.state.cookDuration != 0) {
-                          //  var newRecipe =
-                          //  Recipe(
-                          //   name: _mealNameController.text,
-                          //   imgName: 'Fake img name',
-                          //   cookTime: durtionBloc.state.cookDuration,
-                          //   imgURL: 'Fake img url');
+                           var newRecipe =
+                           Recipe(
+                            name: _mealNameController.text,
+                            recipeDesc: _descriptionController.text,
+                            cookTime: durtionBloc.state.cookDuration,
+                            imgURL: '',
+                            localImgPath: imgLocalPath,
+                            );
 
                           //BlocProvider.of<DatabaseBloc>(context).add(DatabaseUpload(newRecipe: newRecipe));
-                          //BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad());
+                          BlocProvider.of<ImagePickerBloc>(context).add(PushImage(recipeInfo: newRecipe));
 
                           durtionBloc.add(DurationPickerEvent(cookDuration: 0));
                           Get.offAll(HomeScreen());
