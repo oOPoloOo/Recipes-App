@@ -11,6 +11,7 @@ class AppRoutes {
   
   static final routes = [    
      GetPage(name: homeRouteName, page: () => HomeScreen()),
-     GetPage(name: detailsRouteName, page: () => AddRecipeScreen()),
+     GetPage(name: addRouteName, page: () => AddRecipeScreen()),
+     GetPage(name: detailsRouteName, page: () => RecipeDetailsScreen()),
   ];
 }

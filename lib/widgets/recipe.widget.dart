@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/helpers/text.background.blur.dart';
 
@@ -18,8 +19,7 @@ class RecipeTile  {
   Widget buildRecipeCard(Recipe recipe, BuildContext context) => 
       GestureDetector(
         onTap: () {
-          //Add functionality
-          print('TAPPED CARD');
+         Get.toNamed("/details");         
         },
         child: AspectRatio(
           aspectRatio: 6/8,
