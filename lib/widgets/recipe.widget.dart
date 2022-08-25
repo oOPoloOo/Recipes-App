@@ -63,13 +63,44 @@ class RecipeTile  {
                                 // ignore: prefer_const_constructors
                                 child: Container(
                                   width: constraint.biggest.width * 0.85,
-                                  child: Text(
-                                    recipe.name,        
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30.0,
-                                      fontWeight: FontWeight.w600
-                                      )                         
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 7,
+                                        child: Text(
+                                          recipe.name, 
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 25.0,
+                                            fontWeight: FontWeight.w600
+                                            ),                         
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${recipe.cookTime}', 
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 30.0,
+                                                fontWeight: FontWeight.w600
+                                                ),                         
+                                            ),
+                                            Text(
+                                              'min.',        
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 30.0,
+                                                fontWeight: FontWeight.w600
+                                                ),                         
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

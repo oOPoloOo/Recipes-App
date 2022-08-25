@@ -10,6 +10,7 @@ import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/helpers/curved.background.line.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/features/database/bloc/database_bloc.dart';
+import 'package:recipes_app/widgets/styles/styles.dart';
 
 
 
@@ -19,6 +20,8 @@ class HomeScreen extends StatelessWidget{
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
 final RecipeTile rTile = RecipeTile();
+final CustomStyles style = CustomStyles();
+
 var backColor = Colors.amber[400];
   @override
   Widget build(BuildContext context) {
@@ -28,25 +31,67 @@ var backColor = Colors.amber[400];
                   child: AppBar(
                        backgroundColor: backColor,
                        elevation: 0.0,       
-                       title: Text('Cook Book'),
+                       title: Text(
+                        'Cook Book',
+                        style: TextStyle(fontSize: 30, color: Colors.black),
+                        
+                        ),
                        actions: [
                         IconButton(
                           //Why not working with /details !!
                           onPressed: (){Get.to(AddRecipeScreen());},
-                          icon: Icon(Icons.add)
+                          icon: Icon(Icons.add, size: 35,)
                           ),
                           IconButton(
                           onPressed: (){},
-                          icon: Icon(Icons.search)
+                          icon:  
+                          Container(
+                            alignment: Alignment.center,
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: Icon(
+                                Icons.search,
+                                color: Colors.black,
+                                size: 22 
+                              ),
+                          ) 
+                          
+                          
+                              // TextButton(
+                              //     style: TextButton.styleFrom(
+                              //       backgroundColor: Colors.white,
+                              //       shape: CircleBorder(),
+                              //     ),
+                              //     child: Center(
+                              //       child: Icon(
+                              //         Icons.search,
+                              //         color: Colors.black,
+                              //       ),
+                              //     ),
+                              //     onPressed: () {},
+                              //   ),
+                          // CircleAvatar(
+                          //       radius: 40,
+                          //       backgroundColor: Colors.white,
+                          //       child: IconButton(
+                          //         icon: Icon(
+                          //           Icons.search,
+                          //           color: Colors.black,
+                          //         ),
+                          //         onPressed: () {
+                          //           //Implement
+                          //         },
+                          //       ),
+                          //     ),
                           ),
                         ],                        
                       ),
                 ),
-        body: 
-        // SafeArea(
-        //   child: 
-          Stack(
-
+        body: Stack(
             children: <Widget> [
               ClipPath(
                 clipper: CurvedClipPath(),
@@ -77,13 +122,16 @@ var backColor = Colors.amber[400];
                         }
                         else if (state is DatabaseLoaded) {
                           if (state.listOfRecipeData.isEmpty) {
-                            return const Center(
-                              child: Text("No data"),
+                            return  Center(
+                              child: Text(
+                                "No available recipes",
+                                style: style.noAvailable(),
+                                ),
                             );
                           }
                           else 
                           {
-                            //display list
+                            //Display list
                             final recipes = state.listOfRecipeData;                    
                              return ListView( 
                                  // ENABLE REFRESH INDICATOR
@@ -101,7 +149,6 @@ var backColor = Colors.amber[400];
                   ),
               ] 
             ),
-        // )        
-      );   
+        );   
+      }
     }
-  }
