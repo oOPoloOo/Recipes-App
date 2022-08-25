@@ -215,7 +215,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     alignment: Alignment.center,
                                     color: Colors.yellow[700],
                                     // ignore: prefer_const_constructors
-                                    child: Text('Start Cooking',
+                                    child: Text('Upload Recipe',
                                         // ignore: prefer_const_constructors
                                         style: style.yellowButton()
                                         )),

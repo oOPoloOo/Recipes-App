@@ -31,16 +31,62 @@ var backColor = Colors.amber[400];
                   child: AppBar(
                        backgroundColor: backColor,
                        elevation: 0.0,       
-                       title: Text('Cook Book'),
+                       title: Text(
+                        'Cook Book',
+                        style: TextStyle(fontSize: 30, color: Colors.black),
+                        
+                        ),
                        actions: [
                         IconButton(
                           //Why not working with /details !!
                           onPressed: (){Get.to(AddRecipeScreen());},
-                          icon: Icon(Icons.add)
+                          icon: Icon(Icons.add, size: 35,)
                           ),
                           IconButton(
                           onPressed: (){},
-                          icon: Icon(Icons.search)
+                          icon:  
+                          Container(
+                            alignment: Alignment.center,
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: Icon(
+                                Icons.search,
+                                color: Colors.black,
+                                size: 22 
+                              ),
+                          ) 
+                          
+                          
+                              // TextButton(
+                              //     style: TextButton.styleFrom(
+                              //       backgroundColor: Colors.white,
+                              //       shape: CircleBorder(),
+                              //     ),
+                              //     child: Center(
+                              //       child: Icon(
+                              //         Icons.search,
+                              //         color: Colors.black,
+                              //       ),
+                              //     ),
+                              //     onPressed: () {},
+                              //   ),
+                          // CircleAvatar(
+                          //       radius: 40,
+                          //       backgroundColor: Colors.white,
+                          //       child: IconButton(
+                          //         icon: Icon(
+                          //           Icons.search,
+                          //           color: Colors.black,
+                          //         ),
+                          //         onPressed: () {
+                          //           //Implement
+                          //         },
+                          //       ),
+                          //     ),
                           ),
                         ],                        
                       ),
