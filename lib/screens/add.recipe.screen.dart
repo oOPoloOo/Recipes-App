@@ -14,10 +14,12 @@ import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/features/database/bloc/database_bloc.dart';
 import 'screens.export.dart';
 import 'package:recipes_app/repositories/recipes.repository.dart';
+import 'package:recipes_app/widgets/styles/styles.dart';
 
 class AddRecipeScreen extends StatelessWidget {
   final DatabaseServices database = DatabaseServices();
   final StorageServices storage = StorageServices();
+  final CustomStyles style = CustomStyles();
 
   final _mealNameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -125,7 +127,7 @@ class AddRecipeScreen extends StatelessWidget {
                                   minLines: 1,
                                   maxLines: null, // Text fills parent
                                   controller: _mealNameController,
-                                  style: mealNameStyle,
+                                  style: style.mealNameButton(),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Enter meal name',
@@ -143,7 +145,7 @@ class AddRecipeScreen extends StatelessWidget {
                                   minLines: 1,
                                   maxLines: null,
                                   controller: _descriptionController,
-                                  style: TextStyle(fontSize: 19),
+                                  style: style.descriptionButton(),
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Meal description',
@@ -174,12 +176,12 @@ class AddRecipeScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Cooking time',
-                                          style: TextStyle(fontSize: 30),
+                                          style: style.time(),
                                         ),
                                         Text('${durationState.cookDuration}',
-                                            style: TextStyle(fontSize: 30)),
+                                            style: style.time()),
                                         Text('Minutes',
-                                            style: TextStyle(fontSize: 30)),
+                                            style: style.time()),
                                       ],
                                     ),
                                   ),
@@ -193,15 +195,15 @@ class AddRecipeScreen extends StatelessWidget {
                                   if (_descriptionController.text != '' &&
                                       _mealNameController.text != '' &&
                                       durtionBloc.state.cookDuration != 0) {
-                                    var newRecipe = Recipe(
-                                      name: _mealNameController.text,
-                                      recipeDesc: _descriptionController.text,
-                                      cookTime: durtionBloc.state.cookDuration,
-                                      imgURL: imgLocalPath,
-                                      localImgPath: imgLocalPath,
-                                    );
 
-                                    //BlocProvider.of<DatabaseBloc>(context).add(DatabaseUpload(newRecipe: newRecipe));
+                                        var newRecipe = Recipe(
+                                          name: _mealNameController.text,
+                                          recipeDesc: _descriptionController.text,
+                                          cookTime: durtionBloc.state.cookDuration,
+                                          imgURL: imgLocalPath,
+                                          localImgPath: imgLocalPath,
+                                        );
+                                    
                                     BlocProvider.of<ImagePickerBloc>(context).add(PushImage(recipeInfo: newRecipe));
                                     durtionBloc.add(
                                         DurationPickerEvent(cookDuration: 0));
@@ -213,12 +215,10 @@ class AddRecipeScreen extends StatelessWidget {
                                     alignment: Alignment.center,
                                     color: Colors.yellow[700],
                                     // ignore: prefer_const_constructors
-                                    child: const Text('Start Cooking',
+                                    child: Text('Start Cooking',
                                         // ignore: prefer_const_constructors
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 25.0,
-                                            fontWeight: FontWeight.w600))),
+                                        style: style.yellowButton()
+                                        )),
                               ),
                             ),
                           ],

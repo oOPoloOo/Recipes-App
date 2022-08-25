@@ -3,22 +3,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:recipes_app/features/data_mover/bloc/data_mover_bloc.dart';
-import 'package:recipes_app/features/image_picker/bloc/image_picker_bloc.dart';
-import 'package:recipes_app/services/services.dart';
-import 'package:get/get.dart';
-import 'package:duration_picker/duration_picker.dart';
-import 'package:recipes_app/features/duration_picker/bloc/duration_picker_bloc.dart';
+import 'package:recipes_app/widgets/styles/styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipes_app/model/models.dart';
-import 'package:recipes_app/features/database/bloc/database_bloc.dart';
-import 'screens.export.dart';
-import 'package:recipes_app/repositories/recipes.repository.dart';
+import 'package:recipes_app/services/services.dart';
+import 'package:recipes_app/features/data_mover/bloc/data_mover_bloc.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   final DatabaseServices database = DatabaseServices();
   final StorageServices storage = StorageServices();
+  final CustomStyles style = CustomStyles();
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +33,15 @@ class RecipeDetailsScreen extends StatelessWidget {
                 },
                 blendMode: BlendMode.dstIn,
                 child: Image.network(state.recipe.imgURL)
-                ),
+                ),            
             Positioned(
-                top: media.height * 0.10,
-                left: media.width * 0.38,
-                child: Text(state.recipe.name)),
-            Positioned(
-              top: media.height * 0.26,
+              top: media.height * 0.40,
               left: (media.width - media.width * 0.85) / 2,
               child: ClipRRect(
                 borderRadius:
                     BorderRadius.circular(30.0), //clipping the whole widget
                 child: Container(
-                  height: MediaQuery.of(context).size.height *
-                      0.7, //I adjusted here for responsiveness problems on my device
+                  height: MediaQuery.of(context).size.height * 0.55, //I adjusted here for responsiveness problems on my device
                   width: MediaQuery.of(context).size.width * 0.85,
                   color: Colors.white,
                   child: LayoutBuilder(
@@ -66,36 +54,42 @@ class RecipeDetailsScreen extends StatelessWidget {
                                 width: constraint.biggest.width * 0.85,
                                 height: constraint.biggest.height * 0.2,
                                 alignment: Alignment.centerLeft,
-                                child: Text(state.recipe.recipeDesc)),
+                                child: Text(
+                                  state.recipe.name,
+                                  style: style.mealNameButton(),
+                                  )),
                           ),
                           Expanded(
                             flex: 3,
                             child: Container(
                               width: constraint.biggest.width * 0.85,
                               height: constraint.biggest.height * 0.2,
-                              child: Text('${state.recipe.cookTime}'),
+                              child: Text(
+                                'state.recipe.recipeDesc',
+                                style: style.descriptionButton(),
+                                ),
                             ),
                           ),
                           Expanded(
                             flex: 2,
-                            child: Container(
-                              decoration: new BoxDecoration(
-                                  color: const Color(0xFFA0A0A0)
-                                      .withOpacity(0.35)),
-                              child: Container(
+                            child:  Container(
                                 width: constraint.biggest.width,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   // ignore: prefer_const_literals_to_create_immutables
                                   children: [
                                     Text(
-                                      'Cooking time',
-                                      style: TextStyle(fontSize: 30),
+                                      '${state.recipe.cookTime}',
+                                      style: style.time(),
+                                    ),
+                                    Text(
+                                      'minutes',
+                                      style: style.time(),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
+                          
                           ),
                           Expanded(
                             flex: 1,
@@ -103,12 +97,9 @@ class RecipeDetailsScreen extends StatelessWidget {
                                 alignment: Alignment.center,
                                 color: Colors.yellow[700],
                                 // ignore: prefer_const_constructors
-                                child: const Text('Start Cooking',
+                                child:  Text('Comment',
                                     // ignore: prefer_const_constructors
-                                    style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.w600))),
+                                    style: style.yellowButton())),
                           ),
                         ],
                       );
