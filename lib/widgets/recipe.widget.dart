@@ -3,7 +3,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:recipes_app/features/data_mover/bloc/data_mover_bloc.dart';
 import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/helpers/text.background.blur.dart';
 
@@ -16,10 +18,16 @@ class RecipeTile  {
   subtitle: Text( '${recipe.cookTime}') // mazas txt zemiau
   );
 
-  Widget buildRecipeCard(Recipe recipe, BuildContext context) => 
-      GestureDetector(
+  Widget buildRecipeCard(Recipe recipe, BuildContext context){
+    
+ 
+
+    return  GestureDetector(
         onTap: () {
-         Get.toNamed("/details");         
+          BlocProvider.of<DataMoverBloc>(context).
+          add(DataMoverEvent(recipe:  recipe));
+          
+          Get.toNamed("/details");         
         },
         child: AspectRatio(
           aspectRatio: 6/8,
@@ -56,7 +64,7 @@ class RecipeTile  {
                                 child: Container(
                                   width: constraint.biggest.width * 0.85,
                                   child: Text(
-                                    'Healthy Vegetarian And Rice',        
+                                    recipe.name,        
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 30.0,
@@ -75,5 +83,6 @@ class RecipeTile  {
             ),
           ),
         ),
-      );    
+      );  
+    }  
   }
