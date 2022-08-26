@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget{
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
 final RecipeTile rTile = RecipeTile();
+final CategoryWidget categoryWidget = CategoryWidget();
 final CustomStyles style = CustomStyles();
 
 var backColor = Colors.amber[400];
@@ -29,48 +30,44 @@ var backColor = Colors.amber[400];
     var media = MediaQuery.of(context).size;
 
     return  Scaffold(            
-                appBar:  PreferredSize(
-                  preferredSize: Size.fromHeight(50.0),
-                  child: AppBar(
-                       backgroundColor: backColor,
-                       elevation: 0.0,       
-                       title: Text(
-                        'Cook Book',
-                        style: TextStyle(fontSize: 30, color: Colors.black),
-                        
-                        ),
-                       actions: [
-                        IconButton(
-                          //Why not working with /details !!
-                          onPressed: (){Get.to(AddRecipeScreen());},
-                          icon: Icon(Icons.add, size: 35,)
-                          ),
-                          IconButton(
-                          onPressed: (){},
-                          icon:  
-                          Container(
-                            alignment: Alignment.center,
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: Icon(
-                                Icons.search,
-                                color: Colors.black,
-                                size: 22 
-                              ),
-                            ) 
-                          ),
-                        ],                        
-                      ),
+        appBar:  PreferredSize(
+          preferredSize: Size.fromHeight(50.0),
+          child: AppBar(
+                backgroundColor: backColor,
+                elevation: 0.0,       
+                title: Text(
+                'Cook Book',
+                style: TextStyle(fontSize: 30, color: Colors.black),
+                
                 ),
-        body:  
-        
- 
-//////////////////////////////////////////////////
- Container(
+                actions: [
+                IconButton(
+                  //Why not working with /details !!
+                  onPressed: (){Get.to(AddRecipeScreen());},
+                  icon: Icon(Icons.add, size: 35,)
+                  ),
+                  IconButton(
+                  onPressed: (){},
+                  icon:  
+                  Container(
+                    alignment: Alignment.center,
+                    height: 35,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                        size: 22 
+                      ),
+                    ) 
+                  ),
+                ],                        
+              ),
+        ),
+        body:  Container(
           child: Stack(
               children: <Widget> [
                 ClipPath(
@@ -125,183 +122,14 @@ var backColor = Colors.amber[400];
                                       scrollDirection: Axis.horizontal,                                      
                                       shrinkWrap: true,
                                       children: <Widget>[       
-                                         Padding(
-                                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                           child: Column(
-                                             children: [                                             
-                                                  Expanded(
-                                                    child: AspectRatio(
-                                                    aspectRatio: 1/1,                                          
-                                                        child: 
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(18.0),                                                          
-                                                          child:  
-                                                          Image(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage('images/breakfast.png'),
-                                                              height: 25,
-                                                              width: 25,
-                                                              ), 
-                                                        ),
-                                                    ),
-                                                  ),                                               
-                                                Text('data')
-                                             ],
-                                           ),
-                                         ), 
-
-                                          Padding(
-                                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                           child: Column(
-                                             children: [                                             
-                                                  Expanded(
-                                                    child: AspectRatio(
-                                                    aspectRatio: 1/1,                                          
-                                                        child: 
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(18.0),                                                          
-                                                          child:  
-                                                          Image(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage('images/breakfast.png'),
-                                                              height: 25,
-                                                              width: 25,
-                                                              ), 
-                                                        ),
-                                                    ),
-                                                  ),                                               
-                                                Text('data')
-                                             ],
-                                           ),
-                                         ),
-
-                                          Padding(
-                                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                           child: Column(
-                                             children: [                                             
-                                                  Expanded(
-                                                    child: AspectRatio(
-                                                    aspectRatio: 1/1,                                          
-                                                        child: 
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(18.0),                                                          
-                                                          child:  
-                                                          Image(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage('images/breakfast.png'),
-                                                              height: 25,
-                                                              width: 25,
-                                                              ), 
-                                                        ),
-                                                    ),
-                                                  ),                                               
-                                                Text('data')
-                                             ],
-                                           ),
-                                         ),
-
-                                          Padding(
-                                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                           child: Column(
-                                             children: [                                             
-                                                  Expanded(
-                                                    child: AspectRatio(
-                                                    aspectRatio: 1/1,                                          
-                                                        child: 
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(18.0),                                                          
-                                                          child:  
-                                                          Image(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage('images/breakfast.png'),
-                                                              height: 25,
-                                                              width: 25,
-                                                              ), 
-                                                        ),
-                                                    ),
-                                                  ),                                               
-                                                Text('data')
-                                             ],
-                                           ),
-                                         ),
-
-                                              Padding(
-                                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                           child: Column(
-                                             children: [                                             
-                                                  Expanded(
-                                                    child: AspectRatio(
-                                                    aspectRatio: 1/1,                                          
-                                                        child: 
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(18.0),                                                          
-                                                          child:  
-                                                          Image(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage('images/breakfast.png'),
-                                                              height: 25,
-                                                              width: 25,
-                                                              ), 
-                                                        ),
-                                                    ),
-                                                  ),                                               
-                                                Text('data')
-                                             ],
-                                           ),
-                                         ),
-
-                                              Padding(
-                                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                           child: Column(
-                                             children: [                                             
-                                                  Expanded(
-                                                    child: AspectRatio(
-                                                    aspectRatio: 1/1,                                          
-                                                        child: 
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(18.0),                                                          
-                                                          child:  
-                                                          Image(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage('images/breakfast.png'),
-                                                              height: 25,
-                                                              width: 25,
-                                                              ), 
-                                                        ),
-                                                    ),
-                                                  ),                                               
-                                                Text('data')
-                                             ],
-                                           ),
-                                         ),
-
-                                          Padding(
-                                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                           child: Column(
-                                             children: [                                             
-                                                  Expanded(
-                                                    child: AspectRatio(
-                                                    aspectRatio: 1/1,                                          
-                                                        child: 
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(18.0),                                                          
-                                                          child:  
-                                                          Image(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage('images/breakfast.png'),
-                                                              height: 25,
-                                                              width: 25,
-                                                              ), 
-                                                        ),
-                                                    ),
-                                                  ),                                               
-                                                Text('data')
-                                             ],
-                                           ),
-                                         ),
+                                       categoryWidget.buildCategory(),
+                                       categoryWidget.buildCategory(),  
+                                       categoryWidget.buildCategory(),  
+                                       categoryWidget.buildCategory(),  
+                                       categoryWidget.buildCategory(),  
+                                       categoryWidget.buildCategory(),                                            
                                       ],
-                                    )
-                                    
+                                    )                                    
                                   ),
                                   
                                   Expanded(                                   
