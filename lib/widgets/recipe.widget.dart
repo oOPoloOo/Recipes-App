@@ -10,18 +10,10 @@ import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/helpers/text.background.blur.dart';
 
 class RecipeTile  {  
-  TextBackgroudBlur blur = TextBackgroudBlur();
-
-  Widget buildRecipe(Recipe recipe) => ListTile(
-  //leading: CircleAvatar(child:Text(recipe.name)), // paveiksliukas
-  title: Text(recipe.name ), // didelis txt
-  subtitle: Text( '${recipe.cookTime}') // mazas txt zemiau
-  );
+  TextBackgroudBlur blur = TextBackgroudBlur(); 
 
   Widget buildRecipeCard(Recipe recipe, BuildContext context){
     
- 
-
     return  GestureDetector(
         onTap: () {
           BlocProvider.of<DataMoverBloc>(context).
@@ -34,9 +26,11 @@ class RecipeTile  {
           child: Container(
             padding: EdgeInsets.only(bottom: 23),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(30.0), //clipping the whole widget
-              child: Container(     
-                  height: MediaQuery.of(context).size.height * 0.58, //I adjusted here for responsiveness problems on my device
+              //Clipping the whole widget
+              borderRadius: BorderRadius.circular(30.0), 
+              child: Container(
+                  //I adjusted here for responsiveness problems on my device     
+                  height: MediaQuery.of(context).size.height * 0.58, 
                   width: MediaQuery.of(context).size.width * 0.85,                
                   color: Colors.white,
                   child: LayoutBuilder(
@@ -49,8 +43,7 @@ class RecipeTile  {
                                   image: NetworkImage(recipe.imgURL), 
                                   fit: BoxFit.fill
                                   ),
-                              ),
-                            //   child:  Text(recipe.name),
+                              ),                            
                             ),                          
                           Positioned(
                             bottom: 0.0,

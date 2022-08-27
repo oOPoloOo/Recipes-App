@@ -43,7 +43,8 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
             name: recipe.name,
             recipeDesc: recipe.recipeDesc,
             cookTime: recipe.cookTime,
-            imgURL: imgURL            
+            imgURL: imgURL,   
+            category: ''        
             );
             _recipesRepo.writeRecipe(newRecipe);
 

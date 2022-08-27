@@ -11,7 +11,8 @@ class DataMoverBloc extends Bloc<DataMoverEvent, DataMoverState> {
     cookTime: 0,
     name: '',
     recipeDesc: '',
-    imgURL: ''
+    imgURL: '',
+    category: ''
   ))) {
     on<DataMoverEvent>((event, emit) {
      emit(DataMoverState(recipe: event.recipe));

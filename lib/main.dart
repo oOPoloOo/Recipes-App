@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'features/categories/bloc/categories_bloc.dart';
 import 'features/data_mover/bloc/data_mover_bloc.dart';
 import 'router/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -66,6 +67,9 @@ class _MyAppState extends State<MyApp> {
            ),
             BlocProvider(
             create: (context) => DataMoverBloc(),
+           ),
+            BlocProvider(
+            create: (context) => CategoriesBloc(),
            ),
       ],
       child: GetMaterialApp(
