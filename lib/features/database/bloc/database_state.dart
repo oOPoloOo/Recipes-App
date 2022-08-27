@@ -14,13 +14,14 @@ class DatabaseLoading extends DatabaseState {}
 
 
 class DatabaseLoaded extends DatabaseState {
-  final List<Recipe?> listOfRecipeData;
+  // final List<Recipe?> listOfRecipeData;
+  final CategoryRecipe categoriesRecipes;
 
-  const DatabaseLoaded(this.listOfRecipeData);
+  const DatabaseLoaded(this.categoriesRecipes);
    
 
   @override
-  List<Object?> get props => [listOfRecipeData];
+  List<Object> get props => [categoriesRecipes];
 }
 
 class DatabaseUploading extends DatabaseState {

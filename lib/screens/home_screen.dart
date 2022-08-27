@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget{
 final DatabaseServices database = DatabaseServices();
 final StorageServices storage = StorageServices();
 final RecipeTile rTile = RecipeTile();
+final CategoryWidget catWidget = CategoryWidget();
 final CategoryWidget categoryWidget = CategoryWidget();
 final CustomStyles style = CustomStyles();
 
@@ -76,10 +77,8 @@ var backColor = Colors.amber[400];
                     color: backColor,
                   ),
                 ),
-                Container(                  
-                   // padding: EdgeInsets.only(left: 20, right: 20),
-                    child: 
-                    RefreshIndicator(
+                Container( 
+                    child: RefreshIndicator(
                       onRefresh: () async  {
 
                         BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad()); 
@@ -97,8 +96,8 @@ var backColor = Colors.amber[400];
                             context.read<DatabaseBloc>().add(DatabaseLoad());
                             return const Center(child: CircularProgressIndicator());
                           }
-                          else if (state is DatabaseLoaded) {
-                            if (state.listOfRecipeData.isEmpty) {
+                          else if (state is DatabaseLoaded) {                          
+                              if (state.categoriesRecipes.getRecipes.isEmpty) {
                               return  Center(
                                 child: Text(
                                   "No available recipes",
@@ -108,27 +107,23 @@ var backColor = Colors.amber[400];
                             }
                             else 
                             {
-                              //Display list
-                              final recipes = state.listOfRecipeData;                    
+                              //Display list                             
+                              final recipes = state.categoriesRecipes.getRecipes;  
+                              final categories = state.categoriesRecipes.getCategories;                       
                                return Container(
                                 height: media.height,
                                 child: Column(
                                   children: [
                                   Container(
                                     // height: media.height * 0.2,
-                                    height: 100,
+                                    height: 120,
                                     width: double.infinity,
                                     child: new ListView(
                                       scrollDirection: Axis.horizontal,                                      
                                       shrinkWrap: true,
-                                      children: <Widget>[       
-                                       categoryWidget.buildCategory(),
-                                       categoryWidget.buildCategory(),  
-                                       categoryWidget.buildCategory(),  
-                                       categoryWidget.buildCategory(),  
-                                       categoryWidget.buildCategory(),  
-                                       categoryWidget.buildCategory(),                                            
-                                      ],
+                                      children: 
+                                      categories.map((cat) => 
+                                      catWidget.buildCategory(cat, context)).toList()                                      
                                     )                                    
                                   ),
                                   
@@ -139,7 +134,7 @@ var backColor = Colors.amber[400];
                                         shrinkWrap: true,
                                        // ENABLE REFRESH INDICATOR
                                        physics: AlwaysScrollableScrollPhysics(),
-                                       children: recipes.map((recipe) => rTile.buildRecipeCard(recipe!, context)).toList()
+                                       children: recipes.map((recipe) => rTile.buildRecipeCard(recipe, context)).toList()
                                       ),
                                     ),
                                   ),

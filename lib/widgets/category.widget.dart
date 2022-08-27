@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_app/model/models.dart';
 
 class CategoryWidget {
 
-   Widget buildCategory() {
+   Widget buildCategory(Category category, BuildContext context) {
     return  
      Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8),
-        child: Column(
-          children: [                                             
-              Expanded(
-                child: AspectRatio(
-                aspectRatio: 1/1,                                          
-                    child: 
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(18.0),                                                          
-                      child:  
-                      Image(
-                          fit: BoxFit.cover,
-                          image: AssetImage('images/breakfast.png'),
-                          height: 25,
-                          width: 25,
+        padding: const EdgeInsets.only(left: 10, right: 10),          
+          child: Column(
+              children: [                                             
+                  Expanded(
+                    child: AspectRatio(
+                    aspectRatio: 1/1,                                          
+                        child: 
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(18.0),                                                          
+                          child:  
+                          Image(
+                             fit: BoxFit.cover,                          
+                             image: NetworkImage(category.imageURL),                              
                           ), 
+                        ),
                     ),
-                ),
-              ),                                               
-            Text('data')
-          ],
-        ),
+                  ),                                               
+                Container(
+                 
+                  child: Text(category.category))
+              ],
+            ),
       );
 
    }

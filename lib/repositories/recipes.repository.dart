@@ -23,6 +23,10 @@ DatabaseServices db = DatabaseServices();
       return db.readRecipesQuery();
     }
 
+    Future<List<Category>> readCategories() {
+      return db.readCategoriesQuery();
+    }
+
     Future<void> writeRecipe(Recipe recipe) {
       return db.uploadRecipeData(recipe);
     }

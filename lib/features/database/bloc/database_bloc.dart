@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:recipes_app/model/category.recipe.model.dart';
 import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/repositories/recipes.repository.dart';
 
@@ -19,9 +20,12 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     try
     {
       emit(DatabaseLoading());
-      List<Recipe> listofUserData = await _recipesRepo.readRecipes();
-      // String meatball = await _recipesRepo.downloadImgURL('meatbals.jpg');      
-      emit(DatabaseLoaded(listofUserData));
+      List<Recipe> listofRecipes = await _recipesRepo.readRecipes();
+      List<Category>  listofCategories = await _recipesRepo.readCategories();
+      CategoryRecipe catAndRecip = CategoryRecipe(listofRecipes, listofCategories);
+     
+      emit(DatabaseLoaded(catAndRecip));
+      //emit(DatabaseLoaded(listofUserData));
     }
     on Exception 
     {
