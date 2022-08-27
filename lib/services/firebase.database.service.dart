@@ -25,6 +25,16 @@ import 'package:recipes_app/model/models.dart';
         .toList();
   }
 
+  Future<List<Category>> readCategoriesQuery() async {
+   QuerySnapshot<Map<String, dynamic>> snapshot = await
+   _db.collection('Categories').get();
+
+   //Luzta mappinant
+   return snapshot.docs
+        .map((docSnapshot) => Category.fromDocSnap(docSnapshot))
+        .toList();
+  }
+
    uploadRecipeData(Recipe recipe) async {
     
     await _db.collection('Recipes').doc(recipe.name).set(recipe.toJson());

@@ -43,7 +43,7 @@ class RecipeTile  {
                     builder: (context, constraint) {
                       return Stack(
                         children: [
-                            Container(
+                            Container( // Luzta
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(recipe.imgURL), 
