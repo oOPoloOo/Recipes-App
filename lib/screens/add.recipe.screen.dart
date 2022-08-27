@@ -216,6 +216,7 @@ class AddRecipeScreen extends StatelessWidget {
                                           cookTime: durtionBloc.state.cookDuration,
                                           imgURL: imgLocalPath,
                                           localImgPath: imgLocalPath,
+                                          category: ''
                                         );
                                     
                                     BlocProvider.of<ImagePickerBloc>(context).add(PushImage(recipeInfo: newRecipe));

@@ -24,8 +24,7 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
       List<Category>  listofCategories = await _recipesRepo.readCategories();
       CategoryRecipe catAndRecip = CategoryRecipe(listofRecipes, listofCategories);
      
-      emit(DatabaseLoaded(catAndRecip));
-      //emit(DatabaseLoaded(listofUserData));
+      emit(DatabaseLoaded(catAndRecip));     
     }
     on Exception 
     {
