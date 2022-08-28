@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipes_app/model/models.dart';
+import 'package:recipes_app/model/models.export.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../features/categories/bloc/categories_bloc.dart';

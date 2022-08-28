@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/features/image_picker/bloc/image_picker_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../model/models.dart';
+import '../../model/models.export.dart';
 
 Future selectPhoto(BuildContext context) async {
   await showModalBottomSheet(

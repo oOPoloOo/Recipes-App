@@ -19,7 +19,14 @@ import 'features/image_picker/bloc/image_picker_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyDCZe2t39ZENbUGOC8t74UPkPrNH2ccXzw",
+      appId: "1:385079244008:android:e40d80671623f37a16855d",
+      messagingSenderId: "385079244008",
+      projectId: "recipes-app-92e9e",
+    ),
+  );
 
   BlocOverrides.runZoned(() => runApp(MyApp()),
       blocObserver: AppBlocObserver());

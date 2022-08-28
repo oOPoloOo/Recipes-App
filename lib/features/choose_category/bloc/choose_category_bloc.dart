@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:recipes_app/model/models.dart';
+import 'package:recipes_app/model/models.export.dart';
 
 part 'choose_category_event.dart';
 part 'choose_category_state.dart';

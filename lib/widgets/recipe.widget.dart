@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:recipes_app/features/data_mover/bloc/data_mover_bloc.dart';
-import 'package:recipes_app/model/models.dart';
+import 'package:recipes_app/model/models.export.dart';
 import 'package:recipes_app/helpers/text.background.blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

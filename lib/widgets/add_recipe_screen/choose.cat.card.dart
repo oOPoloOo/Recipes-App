@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../model/models.dart';
+import '../../model/models.export.dart';
 
 Widget chooseCategoryCard(Category category, BuildContext context) => Column(
         children: [

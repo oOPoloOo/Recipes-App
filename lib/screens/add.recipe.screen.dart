@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:recipes_app/features/duration_picker/bloc/duration_picker_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipes_app/model/models.dart';
+import 'package:recipes_app/model/models.export.dart';
 import 'package:recipes_app/features/database/bloc/database_bloc.dart';
 import 'screens.export.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';

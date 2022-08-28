@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:recipes_app/model/category.recipe.model.dart';
-import 'package:recipes_app/model/models.dart';
+import 'package:recipes_app/model/models.export.dart';
 import 'package:recipes_app/repositories/recipes.repository.dart';
 
 part 'database_event.dart';
