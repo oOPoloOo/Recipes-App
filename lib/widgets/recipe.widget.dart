@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:recipes_app/features/data_mover/bloc/data_mover_bloc.dart';
 import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/helpers/text.background.blur.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeTile  {  
   TextBackgroudBlur blur = TextBackgroudBlur(); 
@@ -40,7 +41,7 @@ class RecipeTile  {
                             Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: NetworkImage(recipe.imgURL), 
+                                  image: CachedNetworkImageProvider(recipe.imgURL), 
                                   fit: BoxFit.fill
                                   ),
                               ),                            

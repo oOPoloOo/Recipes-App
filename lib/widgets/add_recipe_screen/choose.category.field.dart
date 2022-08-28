@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
@@ -52,12 +53,13 @@ Widget chooseCatField(BuildContext context, TextEditingController _categoryContr
                             child:                            
                                  Expanded(
                                    child:                                  
-                                    Image(                                           
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(state.category.imageURL),
-                                            height: 100,
-                                            width: 100,
-                                          ),
+                                    Image
+                                    (                                           
+                                      fit: BoxFit.cover,
+                                      image: CachedNetworkImageProvider(state.category.imageURL),
+                                      height: 100,
+                                      width: 100,
+                                    ),
                                  ),
                               );
                         } 

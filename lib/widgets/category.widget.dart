@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/model/models.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../features/categories/bloc/categories_bloc.dart';
 
@@ -25,8 +26,8 @@ class CategoryWidget {
                             borderRadius: BorderRadius.circular(18.0),                                                          
                             child:  
                             Image(
-                               fit: BoxFit.cover,                          
-                               image: NetworkImage(category.imageURL),                              
+                               fit: BoxFit.cover, 
+                               image: CachedNetworkImageProvider(category.imageURL),                              
                             ), 
                           ),
                       ),

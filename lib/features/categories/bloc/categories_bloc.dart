@@ -8,10 +8,17 @@ part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc() : super(CategoriesInitial()) {    
-    on<CategoriesChange>(_filterByCategory);    
+    final allRecip;
+    
+    on<CategoriesChange>( allRecip =  _filterByCategory); 
+    on<CategoriesReset>(
+     (event, emit) {
+          emit(CategoriesChanged(recipes: allRecip));   
+      }   
+    );    
   }
 
-  _filterByCategory(CategoriesChange event, Emitter<CategoriesState> emit) async {
+ Future _filterByCategory(CategoriesChange event, Emitter<CategoriesState> emit) async {
     
      final filterRecipes;
      
@@ -28,7 +35,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
      }         
      
       emit(CategoriesChanged(recipes: filterRecipes));   
-  }
 
+      return  event.allRecipes;
+  }  
 }
 

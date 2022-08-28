@@ -19,7 +19,6 @@ class HomeScreen extends StatelessWidget {
   final StorageServices storage = StorageServices();
   final RecipeTile rTile = RecipeTile();
   final CategoryWidget catWidget = CategoryWidget();
- // final CategoryWidget categoryWidget = CategoryWidget();
   final CustomStyles style = CustomStyles();
 
   var backColor = Colors.amber[400];
@@ -89,7 +88,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Container(
               child: RefreshIndicator(
-            onRefresh: () async {
+              onRefresh: () async {
               BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad());
 
               //Added bacause requires future
@@ -134,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                                 if (catState is CategoriesChanged) {
                                   return ListView(
                                       shrinkWrap: true,
-                                      // ENABLE REFRESH INDICATOR
+                                      // Enable refresh indicator
                                       physics: AlwaysScrollableScrollPhysics(),
                                       children: catState.recipes
                                           .map((recipe) =>
@@ -144,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                                 } else {
                                   return ListView(
                                       shrinkWrap: true,
-                                      // ENABLE REFRESH INDICATOR
+                                      // Enable refresh indicator
                                       physics: AlwaysScrollableScrollPhysics(),
                                       children: recipes
                                           .map((recipe) =>

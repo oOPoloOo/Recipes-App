@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:recipes_app/features/categories/bloc/categories_bloc.dart';
 
 import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/image_picker/bloc/image_picker_bloc.dart';
@@ -156,8 +157,7 @@ class AddRecipeScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Expanded(
-                              // dirbu
+                            Expanded(                             
                               flex: 2,
                               child: Container(
                                   width: constraint.biggest.width * 0.85,
@@ -226,13 +226,16 @@ class AddRecipeScreen extends StatelessWidget {
                                     //Resets category pick field
                                     BlocProvider.of<ChooseCategoryBloc>(context)
                                         .add(ChooseCategoryReset());
+                                    
+                                    //Reset category filter in main page
+                                    BlocProvider.of<CategoriesBloc>(context)
+                                        .add(CategoriesReset());    
 
-                                    //Refresh main page
-                                    BlocProvider.of<DatabaseBloc>(context)
-                                      .add(DatabaseLoad());
+                                    //Refresh main page. Not working
+                                    // BlocProvider.of<DatabaseBloc>(context)
+                                    //   .add(DatabaseLoad());
                                         
-                                    Get.offAll(HomeScreen());
-                                    print('Start cooking');
+                                    Get.offAll(HomeScreen());                                    
                                   }
                                 },
                                 child: Container(

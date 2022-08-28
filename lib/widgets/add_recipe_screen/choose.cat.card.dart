@@ -3,6 +3,7 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../model/models.dart';
 
@@ -25,7 +26,7 @@ Widget chooseCategoryCard(Category category, BuildContext context) => Column(
                       borderRadius: BorderRadius.circular(18.0),
                       child: Image(
                         fit: BoxFit.cover,
-                        image: NetworkImage(category.imageURL),
+                        image: CachedNetworkImageProvider(category.imageURL),
                       ),
                     ),
                   ),
