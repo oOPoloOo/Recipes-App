@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
+import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 import 'features/categories/bloc/categories_bloc.dart';
 import 'features/data_mover/bloc/data_mover_bloc.dart';
 import 'router/routes.dart';
@@ -70,6 +72,12 @@ class _MyAppState extends State<MyApp> {
            ),
             BlocProvider(
             create: (context) => CategoriesBloc(),
+           ),
+            BlocProvider(
+            create: (context) => ChooseCategoryBloc(),
+           ),
+            BlocProvider(
+            create: (context) => CategoryDataMoverBloc(),
            ),
       ],
       child: GetMaterialApp(

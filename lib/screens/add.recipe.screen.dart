@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/image_picker/bloc/image_picker_bloc.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ import 'package:recipes_app/features/database/bloc/database_bloc.dart';
 import 'screens.export.dart';
 import 'package:recipes_app/repositories/recipes.repository.dart';
 import 'package:recipes_app/widgets/styles/styles.dart';
+import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 
 class AddRecipeScreen extends StatelessWidget {
   final DatabaseServices database = DatabaseServices();
@@ -28,6 +30,155 @@ class AddRecipeScreen extends StatelessWidget {
   final TextStyle mealNameStyle =
       TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
 
+  Widget chooseCatField(BuildContext context) => Row(
+        children: [
+          Expanded(
+            child: BlocBuilder<ChooseCategoryBloc, ChooseCategoryState>(
+              builder: (context, state) {
+                if (state is CategoryPicked) {
+                  return
+                      // Expanded(
+                      //     child:
+                      Text(
+                    state.category.category,
+                    style: style.descriptionButton(),
+                  );
+                  // );
+                } else {
+                  return
+                      // Expanded(
+                      //     child:
+                      Text(
+                    'Category',
+                    style: style.descriptionButton(),
+                  );
+                  // );
+                }
+              },
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: 125,
+            child: Padding(
+              padding: EdgeInsets.all(14),
+              child: Expanded(
+                // child: Padding(
+                //   padding: const EdgeInsets.all(18.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: GestureDetector(
+                    onTap: () => showAlertDialog(context),
+                    child: Container(
+                      alignment: Alignment.center,
+                      color: const Color(0xFFA0A0A0).withOpacity(0.35),
+                      child:
+                          BlocBuilder<ChooseCategoryBloc, ChooseCategoryState>(
+                        builder: (context, state) {
+                          if (state is CategoryPicked) {
+                            return Expanded(
+                              child: AspectRatio(
+                                aspectRatio: 1 / 1,
+                                child: Image(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(state.category.imageURL),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Expanded(
+                                child: Icon(
+                              Icons.photo,
+                              size: 80,
+                            ));
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                //),
+              ),
+            ),
+          )
+        ],
+      );
+
+  Widget chooseCategory(Category category, BuildContext context) => Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: GestureDetector(
+              onTap: () {
+                BlocProvider.of<ChooseCategoryBloc>(context)
+                    .add(CategoryPick(pickedCat: category));
+              },
+              child: Container(
+                height: 100,
+                width: 100,
+                child: Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(18.0),
+                      child: Image(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(category.imageURL),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(child: Text(category.category))
+        ],
+      );
+
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return BlocListener<ChooseCategoryBloc, ChooseCategoryState>(
+            bloc: BlocProvider.of<ChooseCategoryBloc>(context),
+            listener: (context, state) {
+              if( state is CategoryPicked){
+                  Navigator.pop(context);
+              }
+            },
+            child: Dialog(
+              backgroundColor: Colors.transparent,
+              child: BlocBuilder<CategoryDataMoverBloc, CategoryDataMoverState>(
+                builder: (moverContext, moverState) {
+                  return Container(
+                      //alignment: Alignment.center,
+                      height: 200,
+                      width: double.infinity,
+
+                      //width: 300,
+                      //width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 45),
+                        child: new ListView(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            children: moverState.categories
+                                .map((cat) => chooseCategory(cat, context))
+                                .toList()),
+                      ));
+                  // } else {
+                  //   // return const Center(child: CircularProgressIndicator());
+                  //    Navigator.pop(context);
+                  //    return Container();
+
+                  // }
+                },
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final DurationPickerBloc durtionBloc =
@@ -37,21 +188,17 @@ class AddRecipeScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<DurationPickerBloc, DurationPickerState>(
         builder: (durationCont, durationState) {
-          return
-              // BlocBuilder<ImagePickerBloc, ImagePickerState>(
-              //   builder: (imgContext, imgState) {
-              //     return
-              Container(
+          return Container(
             height: media.height,
             width: media.width,
             child: Stack(clipBehavior: Clip.none, children: [
               BlocBuilder<ImagePickerBloc, ImagePickerState>(
-                buildWhen: (previous, current) => current is ImagePickerPreview || current is ImagePickerInitial,
+                buildWhen: (previous, current) =>
+                    current is ImagePickerPreview ||
+                    current is ImagePickerInitial,
                 builder: (imgContext, imgState) {
-
-                  if(imgState is ImagePickerInitial)
-                  {
-                     return ShaderMask(
+                  if (imgState is ImagePickerInitial) {
+                    return ShaderMask(
                         shaderCallback: (rect) {
                           // ignore: prefer_const_constructors
                           return LinearGradient(
@@ -65,43 +212,37 @@ class AddRecipeScreen extends StatelessWidget {
                         child: Image.asset(
                           'images/plateBlack.jpg',
                         ));
-                    
-                  } 
-                   if (imgState is ImagePickerPreview)
-                  {
-                     imgLocalPath = imgState.photoInfo.localPath;
-
-                     return //Container(
-                      
-                        ShaderMask(
-                        shaderCallback: (rect) {
-                          // ignore: prefer_const_constructors
-                          return LinearGradient(
-                            begin: Alignment.center,
-                            end: Alignment.bottomCenter,
-                            colors: [Colors.black, Colors.transparent],
-                          ).createShader(
-                              Rect.fromLTRB(0, 0, rect.width, rect.height));
-                        },
-                        blendMode: BlendMode.dstIn,
-                        child: AspectRatio(
-                          aspectRatio: 3/3,
-                          child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: FileImage(File(imgLocalPath)), 
-                                    fit: BoxFit.cover
-                                    ),
-                                ),
-                              
-                              ),
-                          ),  
-                        );
-                     }
-                  else {
-                  return Text("Something is wrong");
                   }
-                  
+                  if (imgState is ImagePickerPreview) {
+                    imgLocalPath = imgState.photoInfo.localPath;
+
+                    return //Container(
+
+                        ShaderMask(
+                      shaderCallback: (rect) {
+                        // ignore: prefer_const_constructors
+                        return LinearGradient(
+                          begin: Alignment.center,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(
+                            Rect.fromLTRB(0, 0, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
+                      child: AspectRatio(
+                        aspectRatio: 3 / 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: FileImage(File(imgLocalPath)),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Text("Something is wrong");
+                  }
                 },
               ),
               Positioned(
@@ -120,8 +261,7 @@ class AddRecipeScreen extends StatelessWidget {
                 top: media.height * 0.26,
                 left: (media.width - media.width * 0.85) / 2,
                 child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(30.0), //clipping the whole widget
+                  borderRadius: BorderRadius.circular(30.0),
                   child: Container(
                     height: MediaQuery.of(context).size.height *
                         0.7, //I adjusted here for responsiveness problems on my device
@@ -151,7 +291,7 @@ class AddRecipeScreen extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 width: constraint.biggest.width * 0.85,
                                 height: constraint.biggest.height * 0.2,
@@ -169,10 +309,66 @@ class AddRecipeScreen extends StatelessWidget {
                               ),
                             ),
                             Expanded(
+                              // dirbu
+                              flex: 2,
+                              child: Container(
+                                  width: constraint.biggest.width * 0.85,
+                                  height: constraint.biggest.height * 0.2,
+                                  child: chooseCatField(context)
+                                  // BlocBuilder<ChooseCategoryBloc, ChooseCategoryState>(
+                                  //   builder: (context, state) {
+                                  // return Row(
+                                  //   children: [
+                                  //     Expanded(
+                                  //       child: TextField(
+                                  //         minLines: 1,
+                                  //         maxLines: null,
+                                  //         controller: _descriptionController,
+                                  //         style: style.descriptionButton(),
+                                  //         decoration: const InputDecoration(
+                                  //           border: InputBorder.none,
+                                  //           hintText: 'Category',
+                                  //           hintStyle:
+                                  //               TextStyle(fontSize: 25),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     Expanded(
+                                  //       child: Padding(
+                                  //         padding: const EdgeInsets.all(18.0),
+                                  //         child: ClipRRect(
+                                  //           borderRadius:
+                                  //               BorderRadius.circular(30.0),
+                                  //           child: GestureDetector(
+                                  //             onTap: () =>
+                                  //                 showAlertDialog(context),
+                                  //             child: Container(
+                                  //               alignment: Alignment.center,
+                                  //               color: const Color(0xFFA0A0A0)
+                                  //                   .withOpacity(0.35),
+                                  //               child: Expanded(
+                                  //                   child: Icon(
+                                  //                 Icons.photo,
+                                  //                 size: 80,
+                                  //               )),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     )
+                                  //   ],
+                                  // );
+
+                                  ),
+                            ),
+                            Expanded(
                               flex: 2,
                               child: GestureDetector(
                                 onTap: () async {
                                   var _duration = await showDurationPicker(
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                      ),
                                       context: context,
                                       initialTime: const Duration(minutes: 0));
                                   durtionBloc.add(DurationPickerEvent(
@@ -194,8 +390,7 @@ class AddRecipeScreen extends StatelessWidget {
                                         ),
                                         Text('${durationState.cookDuration}',
                                             style: style.time()),
-                                        Text('Minutes',
-                                            style: style.time()),
+                                        Text('Minutes', style: style.time()),
                                       ],
                                     ),
                                   ),
@@ -209,17 +404,17 @@ class AddRecipeScreen extends StatelessWidget {
                                   if (_descriptionController.text != '' &&
                                       _mealNameController.text != '' &&
                                       durtionBloc.state.cookDuration != 0) {
+                                    var newRecipe = Recipe(
+                                        name: _mealNameController.text,
+                                        recipeDesc: _descriptionController.text,
+                                        cookTime:
+                                            durtionBloc.state.cookDuration,
+                                        imgURL: imgLocalPath,
+                                        localImgPath: imgLocalPath,
+                                        category: '');
 
-                                        var newRecipe = Recipe(
-                                          name: _mealNameController.text,
-                                          recipeDesc: _descriptionController.text,
-                                          cookTime: durtionBloc.state.cookDuration,
-                                          imgURL: imgLocalPath,
-                                          localImgPath: imgLocalPath,
-                                          category: ''
-                                        );
-                                    
-                                    BlocProvider.of<ImagePickerBloc>(context).add(PushImage(recipeInfo: newRecipe));
+                                    BlocProvider.of<ImagePickerBloc>(context)
+                                        .add(PushImage(recipeInfo: newRecipe));
                                     durtionBloc.add(
                                         DurationPickerEvent(cookDuration: 0));
                                     Get.offAll(HomeScreen());
@@ -232,8 +427,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     // ignore: prefer_const_constructors
                                     child: Text('Upload Recipe',
                                         // ignore: prefer_const_constructors
-                                        style: style.yellowButton()
-                                        )),
+                                        style: style.yellowButton())),
                               ),
                             ),
                           ],
