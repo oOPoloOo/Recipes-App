@@ -39,13 +39,10 @@ class HomeScreen extends StatelessWidget {
           actions: [
             BlocBuilder<DatabaseBloc, DatabaseState>(
               builder: (dbContext, dbState) {
-                return BlocBuilder<CategoryDataMoverBloc, CategoryDataMoverState>(
-                  builder: (moveContext, moveState) {
-                    
-                     if(dbState is DatabaseLoaded ) {
+                  if(dbState is DatabaseLoaded ) {
                       return  IconButton(                        
                         onPressed: () {                          
-                          BlocProvider.of<CategoryDataMoverBloc>(moveContext)
+                          BlocProvider.of<CategoryDataMoverBloc>(dbContext)
                               .add(CategoryDataMoverEvent(allCategories: dbState.categoriesRecipes.getCategories));
                           Get.toNamed('/add');
                         },
@@ -63,10 +60,7 @@ class HomeScreen extends StatelessWidget {
                           Icons.add,
                           size: 35,
                         ));
-                     }
-                     
-                  },
-                );
+                     }                
               },
             ),
             IconButton(

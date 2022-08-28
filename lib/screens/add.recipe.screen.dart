@@ -25,6 +25,7 @@ class AddRecipeScreen extends StatelessWidget {
 
   final _mealNameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _categoryController = TextEditingController();
   String imgLocalPath = '';
 
   final TextStyle mealNameStyle =
@@ -36,23 +37,22 @@ class AddRecipeScreen extends StatelessWidget {
             child: BlocBuilder<ChooseCategoryBloc, ChooseCategoryState>(
               builder: (context, state) {
                 if (state is CategoryPicked) {
-                  return
-                      // Expanded(
-                      //     child:
-                      Text(
-                    state.category.category,
+                  _categoryController.text = state.category.category;
+
+                  return TextFormField(
+                    readOnly: true,
+                    controller: _categoryController,
                     style: style.descriptionButton(),
-                  );
-                  // );
-                } else {
-                  return
-                      // Expanded(
-                      //     child:
-                      Text(
-                    'Category',
-                    style: style.descriptionButton(),
-                  );
-                  // );
+                    decoration: InputDecoration(
+                      border: InputBorder.none,                      
+                    ),
+                    
+                  );                               
+                } else {                  
+                    return Text(
+                        'Category',
+                        style: style.descriptionButton(),
+                    );
                 }
               },
             ),
@@ -62,42 +62,42 @@ class AddRecipeScreen extends StatelessWidget {
             width: 125,
             child: Padding(
               padding: EdgeInsets.all(14),
-              child: Expanded(
-                // child: Padding(
-                //   padding: const EdgeInsets.all(18.0),
+              child: Expanded(               
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
                   child: GestureDetector(
                     onTap: () => showAlertDialog(context),
-                    child: Container(
-                      alignment: Alignment.center,
-                      color: const Color(0xFFA0A0A0).withOpacity(0.35),
-                      child:
-                          BlocBuilder<ChooseCategoryBloc, ChooseCategoryState>(
-                        builder: (context, state) {
-                          if (state is CategoryPicked) {
-                            return Expanded(
-                              child: AspectRatio(
-                                aspectRatio: 1 / 1,
-                                child: Image(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(state.category.imageURL),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return Expanded(
-                                child: Icon(
-                              Icons.photo,
-                              size: 80,
-                            ));
-                          }
-                        },
-                      ),
+                    child: BlocBuilder<ChooseCategoryBloc, ChooseCategoryState>(
+                      builder: (context, state) {
+                        
+                        if (state is CategoryPicked) {
+                            return Container(
+                          alignment: Alignment.center,
+                          color: const Color(0xFFA0A0A0).withOpacity(0.35),                        
+                            child:                            
+                                 Expanded(
+                                   child:                                  
+                                    Image(                                           
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(state.category.imageURL),
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                 ),
+                              );
+                        } 
+                        else
+                        {
+                           return Expanded(
+                                  child: Icon(
+                                Icons.photo,
+                                size: 80,
+                              ));
+                        }                        
+                      },
                     ),
                   ),
-                ),
-                //),
+                ),            
               ),
             ),
           )
@@ -142,21 +142,17 @@ class AddRecipeScreen extends StatelessWidget {
           return BlocListener<ChooseCategoryBloc, ChooseCategoryState>(
             bloc: BlocProvider.of<ChooseCategoryBloc>(context),
             listener: (context, state) {
-              if( state is CategoryPicked){
-                  Navigator.pop(context);
+              if (state is CategoryPicked) {
+                Navigator.pop(context);
               }
             },
             child: Dialog(
               backgroundColor: Colors.transparent,
               child: BlocBuilder<CategoryDataMoverBloc, CategoryDataMoverState>(
                 builder: (moverContext, moverState) {
-                  return Container(
-                      //alignment: Alignment.center,
+                  return Container(                      
                       height: 200,
-                      width: double.infinity,
-
-                      //width: 300,
-                      //width: MediaQuery.of(context).size.width,
+                      width: double.infinity,                      
                       child: Padding(
                         padding: const EdgeInsets.only(top: 45),
                         child: new ListView(
@@ -165,13 +161,7 @@ class AddRecipeScreen extends StatelessWidget {
                             children: moverState.categories
                                 .map((cat) => chooseCategory(cat, context))
                                 .toList()),
-                      ));
-                  // } else {
-                  //   // return const Center(child: CircularProgressIndicator());
-                  //    Navigator.pop(context);
-                  //    return Container();
-
-                  // }
+                      ));                 
                 },
               ),
             ),
@@ -263,8 +253,8 @@ class AddRecipeScreen extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, //I adjusted here for responsiveness problems on my device
+                    //I adjusted here for responsiveness problems on my device
+                    height: MediaQuery.of(context).size.height * 0.7,                        
                     width: MediaQuery.of(context).size.width * 0.85,
                     color: Colors.white,
                     child: LayoutBuilder(
@@ -314,52 +304,8 @@ class AddRecipeScreen extends StatelessWidget {
                               child: Container(
                                   width: constraint.biggest.width * 0.85,
                                   height: constraint.biggest.height * 0.2,
-                                  child: chooseCatField(context)
-                                  // BlocBuilder<ChooseCategoryBloc, ChooseCategoryState>(
-                                  //   builder: (context, state) {
-                                  // return Row(
-                                  //   children: [
-                                  //     Expanded(
-                                  //       child: TextField(
-                                  //         minLines: 1,
-                                  //         maxLines: null,
-                                  //         controller: _descriptionController,
-                                  //         style: style.descriptionButton(),
-                                  //         decoration: const InputDecoration(
-                                  //           border: InputBorder.none,
-                                  //           hintText: 'Category',
-                                  //           hintStyle:
-                                  //               TextStyle(fontSize: 25),
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //     Expanded(
-                                  //       child: Padding(
-                                  //         padding: const EdgeInsets.all(18.0),
-                                  //         child: ClipRRect(
-                                  //           borderRadius:
-                                  //               BorderRadius.circular(30.0),
-                                  //           child: GestureDetector(
-                                  //             onTap: () =>
-                                  //                 showAlertDialog(context),
-                                  //             child: Container(
-                                  //               alignment: Alignment.center,
-                                  //               color: const Color(0xFFA0A0A0)
-                                  //                   .withOpacity(0.35),
-                                  //               child: Expanded(
-                                  //                   child: Icon(
-                                  //                 Icons.photo,
-                                  //                 size: 80,
-                                  //               )),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //     )
-                                  //   ],
-                                  // );
-
-                                  ),
+                                  child: chooseCatField(context) 
+                                ),
                             ),
                             Expanded(
                               flex: 2,
@@ -407,11 +353,10 @@ class AddRecipeScreen extends StatelessWidget {
                                     var newRecipe = Recipe(
                                         name: _mealNameController.text,
                                         recipeDesc: _descriptionController.text,
-                                        cookTime:
-                                            durtionBloc.state.cookDuration,
+                                        cookTime: durtionBloc.state.cookDuration,
                                         imgURL: imgLocalPath,
                                         localImgPath: imgLocalPath,
-                                        category: '');
+                                        category: _categoryController.text);
 
                                     BlocProvider.of<ImagePickerBloc>(context)
                                         .add(PushImage(recipeInfo: newRecipe));
