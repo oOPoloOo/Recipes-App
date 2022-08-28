@@ -5,6 +5,7 @@ import 'package:recipes_app/features/category_data_mover/bloc/category_data_move
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
+import 'package:recipes_app/widgets/category.widget.dart';
 import 'screens.export.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/helpers/curved.background.line.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends StatelessWidget {
   final StorageServices storage = StorageServices();
   final RecipeTile rTile = RecipeTile();
   final CategoryWidget catWidget = CategoryWidget();
-  final CategoryWidget categoryWidget = CategoryWidget();
+ // final CategoryWidget categoryWidget = CategoryWidget();
   final CustomStyles style = CustomStyles();
 
   var backColor = Colors.amber[400];

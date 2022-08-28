@@ -15,27 +15,19 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   ImagePickerBloc(this._recipesRepo) : super(ImagePickerInitial()) {   
     on<ChooseImage>(_choseImage);
     on<PushImage>(_pushImage);
-     on<LoadedImage>(_stopTakingSameImage);
-
+    on<LoadedImage>(_stopTakingSameImage);
   }
 
   _choseImage(ChooseImage event, Emitter<ImagePickerState> emit) async {
     
+      //Cropped and compressed image file saved in temp dir path
+      File tidyImg =  await _recipesRepo.pickRecipeImg(event.photoInfo.imgSource!);
       
-        //Cropped and compressed image file saved in temp dir path
-        File tidyImg =  await _recipesRepo.pickRecipeImg(event.photoInfo.imgSource!);
-      
-      emit(ImagePickerPreview(photoInfo: PhotoInfo(path: tidyImg.path)));
-   
-     // await _recipesRepo.pickRecipeImg(event.photoInfo.imgSource!);
-       
+      emit(ImagePickerPreview(photoInfo: PhotoInfo(path: tidyImg.path))); 
   }
 
-   _pushImage(PushImage event, Emitter<ImagePickerState> emit) async {
-    
-      
-       
-     // TO DO///
+   _pushImage(PushImage event, Emitter<ImagePickerState> emit) async { 
+ 
      final imgURL = await _recipesRepo.uploadFile(event.recipeInfo.localImgPath!);
       var recipe = event.recipeInfo;
       var newRecipe =
@@ -44,7 +36,7 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
             recipeDesc: recipe.recipeDesc,
             cookTime: recipe.cookTime,
             imgURL: imgURL,   
-            category: ''        
+            category: recipe.category        
             );
             _recipesRepo.writeRecipe(newRecipe);
 

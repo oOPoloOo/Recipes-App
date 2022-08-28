@@ -9,13 +9,4 @@ abstract class DatabaseEvent extends Equatable {
 
 class DatabaseLoad extends DatabaseEvent {}
 
-class DatabaseUpload extends DatabaseEvent {
-  final Recipe newRecipe;
-  
-
-  const DatabaseUpload({required this.newRecipe});
-
-  @override
-  List<Object?> get props => [newRecipe];
-}
 
