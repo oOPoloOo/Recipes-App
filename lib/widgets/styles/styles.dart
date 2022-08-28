@@ -21,5 +21,4 @@ class CustomStyles {
 
   TextStyle noAvailable() =>
     TextStyle(fontSize: 35);
-  
 }

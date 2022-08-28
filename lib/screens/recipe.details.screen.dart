@@ -7,6 +7,7 @@ import 'package:recipes_app/widgets/styles/styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:recipes_app/features/data_mover/bloc/data_mover_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   final DatabaseServices database = DatabaseServices();
@@ -37,7 +38,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                           child: Container(
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: NetworkImage(state.recipe.imgURL), 
+                                    image: CachedNetworkImageProvider(state.recipe.imgURL), 
                                     fit: BoxFit.cover
                                     ),
                                 ),

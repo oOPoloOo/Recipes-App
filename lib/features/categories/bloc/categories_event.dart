@@ -18,3 +18,11 @@ class CategoriesChange extends CategoriesEvent {
   @override
   List<Object> get props => [CategoryFilter(allRecipes, category)];
 }
+
+class CategoriesReset extends CategoriesEvent { 
+  
+  const CategoriesReset();
+
+  @override
+  List<Object> get props => [];
+}

@@ -15,23 +15,23 @@ import 'package:path/path.dart' as p;
   final firebase_storage.FirebaseStorage storage = 
     firebase_storage.FirebaseStorage.instance;  
 
-    Future<void> uploadFile(
-      String filePath,
-      String fileName,
-    )  async {
-      // Pasiimu faila pagal kelia
-      File file = File(filePath);
+    // Future<void> uploadFile(
+    //   String filePath,
+    //   String fileName,
+    // )  async {
+    //   // Pasiimu faila pagal kelia
+    //   File file = File(filePath);
 
-      //Bandau ikelt i firebase storadge i test folder
-      try{
-         await storage.ref('test/$fileName').putFile(file);
+    //   //Bandau ikelt i firebase storadge i test folder
+    //   try{
+    //      await storage.ref('test/$fileName').putFile(file);
        
-      } 
-      on firebase_core.FirebaseException catch(e) 
-      {
-          print(e.code);  
-      }
-    }
+    //   } 
+    //   on firebase_core.FirebaseException catch(e) 
+    //   {
+    //       print(e.code);  
+    //   }
+    // }
 
   Future<String> UploadFile2(String path) async{
     //Creating storadge reference
@@ -46,36 +46,10 @@ import 'package:path/path.dart' as p;
         final imgURL = await result.ref.getDownloadURL();
         
 
-        return imgURL;
-        //Save image url to local/ db??
+        return imgURL;     
 
         //doing bloc state changes?
-  }
-
-  Future<List<String>> pickRecipeImg() async {
-    
-    //nustatau tinkamu failu param
-    final    mealImg = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ['png','jpg'],
-    );
-
-    // tikrinu ar null, jei nebuvo rasta
-
-    //issaugau pavadinima ir kelia
-    final path = mealImg!.files.single.path!;
-    final fileName = mealImg.files.single.name;
-    List<String> data = [path,fileName];
-
-
-    //testing
-    print(path);
-    print(fileName);
-   
-     //final data = Tuple2<String,String>(path, fileName);
-     return data;    
-  }
+  } 
 
   Future<firebase_storage.ListResult> listFiles() async {
 
@@ -95,6 +69,4 @@ import 'package:path/path.dart' as p;
     String url = await storage.ref('test/$imageName').getDownloadURL();
     return url;
   }
-
-
 }

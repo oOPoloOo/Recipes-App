@@ -24,16 +24,6 @@ class DatabaseLoaded extends DatabaseState {
   List<Object> get props => [categoriesRecipes];
 }
 
-class DatabaseUploading extends DatabaseState {
-  final Recipe newRecipe;
-
-  const DatabaseUploading({required this.newRecipe});
-
-  @override
-  List<Object?> get props => [newRecipe];
-}
-
-
 class DatabaseError extends DatabaseState {
     @override
     List<Object?> get props => [];

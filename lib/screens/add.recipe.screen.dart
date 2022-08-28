@@ -3,8 +3,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:recipes_app/features/categories/bloc/categories_bloc.dart';
+
+import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/image_picker/bloc/image_picker_bloc.dart';
+
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
 import 'package:duration_picker/duration_picker.dart';
@@ -13,8 +16,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/model/models.dart';
 import 'package:recipes_app/features/database/bloc/database_bloc.dart';
 import 'screens.export.dart';
-import 'package:recipes_app/repositories/recipes.repository.dart';
+import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/widgets/styles/styles.dart';
+import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 
 class AddRecipeScreen extends StatelessWidget {
   final DatabaseServices database = DatabaseServices();
@@ -23,10 +27,8 @@ class AddRecipeScreen extends StatelessWidget {
 
   final _mealNameController = TextEditingController();
   final _descriptionController = TextEditingController();
-  String imgLocalPath = '';
-
-  final TextStyle mealNameStyle =
-      TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
+  final _categoryController = TextEditingController();
+  String imgLocalPath = '';  
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +39,17 @@ class AddRecipeScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<DurationPickerBloc, DurationPickerState>(
         builder: (durationCont, durationState) {
-          return
-              // BlocBuilder<ImagePickerBloc, ImagePickerState>(
-              //   builder: (imgContext, imgState) {
-              //     return
-              Container(
+          return Container(
             height: media.height,
             width: media.width,
             child: Stack(clipBehavior: Clip.none, children: [
               BlocBuilder<ImagePickerBloc, ImagePickerState>(
-                buildWhen: (previous, current) => current is ImagePickerPreview || current is ImagePickerInitial,
+                buildWhen: (previous, current) =>
+                    current is ImagePickerPreview ||
+                    current is ImagePickerInitial,
                 builder: (imgContext, imgState) {
-
-                  if(imgState is ImagePickerInitial)
-                  {
-                     return ShaderMask(
+                  if (imgState is ImagePickerInitial) {
+                    return ShaderMask(
                         shaderCallback: (rect) {
                           // ignore: prefer_const_constructors
                           return LinearGradient(
@@ -65,50 +63,42 @@ class AddRecipeScreen extends StatelessWidget {
                         child: Image.asset(
                           'images/plateBlack.jpg',
                         ));
-                    
-                  } 
-                   if (imgState is ImagePickerPreview)
-                  {
-                     imgLocalPath = imgState.photoInfo.localPath;
-
-                     return //Container(
-                      
-                        ShaderMask(
-                        shaderCallback: (rect) {
-                          // ignore: prefer_const_constructors
-                          return LinearGradient(
-                            begin: Alignment.center,
-                            end: Alignment.bottomCenter,
-                            colors: [Colors.black, Colors.transparent],
-                          ).createShader(
-                              Rect.fromLTRB(0, 0, rect.width, rect.height));
-                        },
-                        blendMode: BlendMode.dstIn,
-                        child: AspectRatio(
-                          aspectRatio: 3/3,
-                          child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: FileImage(File(imgLocalPath)), 
-                                    fit: BoxFit.cover
-                                    ),
-                                ),
-                              
-                              ),
-                          ),  
-                        );
-                     }
-                  else {
-                  return Text("Something is wrong");
                   }
-                  
+                  if (imgState is ImagePickerPreview) {
+                      imgLocalPath = imgState.photoInfo.localPath;
+
+                    return  ShaderMask(
+                      shaderCallback: (rect) {
+                        // ignore: prefer_const_constructors
+                        return LinearGradient(
+                          begin: Alignment.center,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(
+                            Rect.fromLTRB(0, 0, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
+                      child: AspectRatio(
+                        aspectRatio: 3 / 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: FileImage(File(imgLocalPath)),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Text("Something is wrong");
+                  }
                 },
               ),
               Positioned(
                 top: media.height * 0.10,
                 left: media.width * 0.38,
                 child: GestureDetector(
-                  onTap: () => _selectPhoto(context),
+                  onTap: () => selectPhoto(context),
                   child: Icon(
                     Icons.add_rounded,
                     color: Colors.grey.withOpacity(0.3),
@@ -120,11 +110,10 @@ class AddRecipeScreen extends StatelessWidget {
                 top: media.height * 0.26,
                 left: (media.width - media.width * 0.85) / 2,
                 child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(30.0), //clipping the whole widget
+                  borderRadius: BorderRadius.circular(30.0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, //I adjusted here for responsiveness problems on my device
+                    //I adjusted here for responsiveness problems on my device
+                    height: MediaQuery.of(context).size.height * 0.7,                        
                     width: MediaQuery.of(context).size.width * 0.85,
                     color: Colors.white,
                     child: LayoutBuilder(
@@ -145,13 +134,13 @@ class AddRecipeScreen extends StatelessWidget {
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Enter meal name',
-                                    hintStyle: mealNameStyle,
+                                    hintStyle: style.mealNameButton(),
                                   ),
                                 ),
                               ),
                             ),
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 width: constraint.biggest.width * 0.85,
                                 height: constraint.biggest.height * 0.2,
@@ -168,11 +157,22 @@ class AddRecipeScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Expanded(                             
+                              flex: 2,
+                              child: Container(
+                                  width: constraint.biggest.width * 0.85,
+                                  height: constraint.biggest.height * 0.2,
+                                  child: chooseCatField(context, _categoryController) 
+                                ),
+                            ),
                             Expanded(
                               flex: 2,
                               child: GestureDetector(
                                 onTap: () async {
                                   var _duration = await showDurationPicker(
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                      ),
                                       context: context,
                                       initialTime: const Duration(minutes: 0));
                                   durtionBloc.add(DurationPickerEvent(
@@ -194,8 +194,7 @@ class AddRecipeScreen extends StatelessWidget {
                                         ),
                                         Text('${durationState.cookDuration}',
                                             style: style.time()),
-                                        Text('Minutes',
-                                            style: style.time()),
+                                        Text('Minutes', style: style.time()),
                                       ],
                                     ),
                                   ),
@@ -209,21 +208,34 @@ class AddRecipeScreen extends StatelessWidget {
                                   if (_descriptionController.text != '' &&
                                       _mealNameController.text != '' &&
                                       durtionBloc.state.cookDuration != 0) {
-
-                                        var newRecipe = Recipe(
-                                          name: _mealNameController.text,
-                                          recipeDesc: _descriptionController.text,
-                                          cookTime: durtionBloc.state.cookDuration,
-                                          imgURL: imgLocalPath,
-                                          localImgPath: imgLocalPath,
-                                          category: ''
-                                        );
+                                    var newRecipe = Recipe(
+                                        name: _mealNameController.text,
+                                        recipeDesc: _descriptionController.text,
+                                        cookTime: durtionBloc.state.cookDuration,
+                                        imgURL: imgLocalPath,
+                                        localImgPath: imgLocalPath,
+                                        category: _categoryController.text);
                                     
-                                    BlocProvider.of<ImagePickerBloc>(context).add(PushImage(recipeInfo: newRecipe));
-                                    durtionBloc.add(
-                                        DurationPickerEvent(cookDuration: 0));
-                                    Get.offAll(HomeScreen());
-                                    print('Start cooking');
+                                    //Uploads new recipe to db
+                                    BlocProvider.of<ImagePickerBloc>(context)
+                                        .add(PushImage(recipeInfo: newRecipe));
+
+                                    //Resets duration picker value
+                                    durtionBloc.add(DurationPickerEvent(cookDuration: 0));
+
+                                    //Resets category pick field
+                                    BlocProvider.of<ChooseCategoryBloc>(context)
+                                        .add(ChooseCategoryReset());
+                                    
+                                    //Reset category filter in main page
+                                    BlocProvider.of<CategoriesBloc>(context)
+                                        .add(CategoriesReset());    
+
+                                    //Refresh main page. Not working
+                                    // BlocProvider.of<DatabaseBloc>(context)
+                                    //   .add(DatabaseLoad());
+                                        
+                                    Get.offAll(HomeScreen());                                    
                                   }
                                 },
                                 child: Container(
@@ -232,8 +244,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     // ignore: prefer_const_constructors
                                     child: Text('Upload Recipe',
                                         // ignore: prefer_const_constructors
-                                        style: style.yellowButton()
-                                        )),
+                                        style: style.yellowButton())),
                               ),
                             ),
                           ],
@@ -244,42 +255,11 @@ class AddRecipeScreen extends StatelessWidget {
                 ),
               ),
             ]),
-          );
-          //   },
-          // );
+          );     
         },
       ),
     );
   }
 }
 
-final RecipesRepository repo = RecipesRepository();
-Future _selectPhoto(BuildContext context) async {
-  await showModalBottomSheet(
-      context: context,
-      builder: (context) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                  leading: Icon(Icons.camera),
-                  title: Text('Camera'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    //repo.pickRecipeImg(ImageSource.camera);
-                    BlocProvider.of<ImagePickerBloc>(context).add(ChooseImage(
-                        photoInfo: PhotoInfo(imgSource: ImageSource.camera)));
-                  }),
-              ListTile(
-                  leading: Icon(Icons.filter),
-                  title: Text('Pick a file'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    //Pakeist, kad butu su bloc
-                    //repo.pickRecipeImg(ImageSource.gallery);
 
-                    BlocProvider.of<ImagePickerBloc>(context).add(ChooseImage(
-                        photoInfo: PhotoInfo(imgSource: ImageSource.gallery)));
-                  }),
-            ],
-          ));
-}

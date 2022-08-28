@@ -1,8 +1,11 @@
 // ignore_for_file: unnecessary_new, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
+import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
+import 'package:recipes_app/widgets/category.widget.dart';
 import 'screens.export.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/helpers/curved.background.line.dart';
@@ -16,7 +19,6 @@ class HomeScreen extends StatelessWidget {
   final StorageServices storage = StorageServices();
   final RecipeTile rTile = RecipeTile();
   final CategoryWidget catWidget = CategoryWidget();
-  final CategoryWidget categoryWidget = CategoryWidget();
   final CustomStyles style = CustomStyles();
 
   var backColor = Colors.amber[400];
@@ -35,16 +37,32 @@ class HomeScreen extends StatelessWidget {
             style: TextStyle(fontSize: 30, color: Colors.black),
           ),
           actions: [
-            IconButton(
-                //Why not working with /details !!
-                onPressed: () {
-                  /// Get.to(AddRecipeScreen());
-                  Get.to('/details');
-                },
-                icon: Icon(
-                  Icons.add,
-                  size: 35,
-                )),
+            BlocBuilder<DatabaseBloc, DatabaseState>(
+              builder: (dbContext, dbState) {
+                  if(dbState is DatabaseLoaded ) {
+                      return  IconButton(                        
+                        onPressed: () {                          
+                          BlocProvider.of<CategoryDataMoverBloc>(dbContext)
+                              .add(CategoryDataMoverEvent(allCategories: dbState.categoriesRecipes.getCategories));
+                          Get.toNamed('/add');
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          size: 35,
+                        ));
+                     } else {
+                      return IconButton(
+                       
+                        onPressed: () {   
+                         // Get.toNamed('/add');
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          size: 35,
+                        ));
+                     }                
+              },
+            ),
             IconButton(
                 onPressed: () {},
                 icon: Container(
@@ -70,7 +88,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Container(
               child: RefreshIndicator(
-            onRefresh: () async {
+              onRefresh: () async {
               BlocProvider.of<DatabaseBloc>(context).add(DatabaseLoad());
 
               //Added bacause requires future
@@ -97,49 +115,46 @@ class HomeScreen extends StatelessWidget {
                     return Container(
                       height: media.height,
                       child: Column(children: [
-                        Container(                           
+                        Container(
                             height: 120,
                             width: double.infinity,
                             child: new ListView(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 children: categories
-                                    .map((cat) => catWidget
-                                    .buildCategory(cat,context,recipes))
-                                    .toList()
-                                    )
-                                  ), 
-
-                             Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: BlocBuilder<CategoriesBloc, CategoriesState>(
-                                  builder: (catContext, catState) {
-                                    
-                                    if (catState is CategoriesChanged) {
-                                        return ListView(
-                                            shrinkWrap: true,
-                                            // ENABLE REFRESH INDICATOR
-                                            physics: AlwaysScrollableScrollPhysics(),
-                                            children: catState.recipes
-                                                .map((recipe) => rTile
-                                                .buildRecipeCard(recipe, catContext))
-                                                .toList());
-                                    } else{
-                                      return ListView(
-                                            shrinkWrap: true,
-                                            // ENABLE REFRESH INDICATOR
-                                            physics: AlwaysScrollableScrollPhysics(),
-                                            children: recipes
-                                                .map((recipe) => rTile.
-                                                buildRecipeCard(recipe, catContext))
-                                                .toList());
-                                    }
-                                  },
-                                ),
-                              ),
-                            ),                        
+                                    .map((cat) => catWidget.buildCategory(
+                                        cat, context, recipes))
+                                    .toList())),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: BlocBuilder<CategoriesBloc, CategoriesState>(
+                              builder: (catContext, catState) {
+                                if (catState is CategoriesChanged) {
+                                  return ListView(
+                                      shrinkWrap: true,
+                                      // Enable refresh indicator
+                                      physics: AlwaysScrollableScrollPhysics(),
+                                      children: catState.recipes
+                                          .map((recipe) =>
+                                              rTile.buildRecipeCard(
+                                                  recipe, catContext))
+                                          .toList());
+                                } else {
+                                  return ListView(
+                                      shrinkWrap: true,
+                                      // Enable refresh indicator
+                                      physics: AlwaysScrollableScrollPhysics(),
+                                      children: recipes
+                                          .map((recipe) =>
+                                              rTile.buildRecipeCard(
+                                                  recipe, catContext))
+                                          .toList());
+                                }
+                              },
+                            ),
+                          ),
+                        ),
                       ]),
                     );
                   }
