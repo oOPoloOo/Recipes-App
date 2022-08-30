@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
+import 'package:recipes_app/router/route.names.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
 import 'package:recipes_app/widgets/category.widget.dart';
+import '../features/navigation/bloc/navigation_bloc.dart';
 import 'screens.export.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/helpers/curved.background.line.dart';
@@ -41,10 +43,11 @@ class HomeScreen extends StatelessWidget {
               builder: (dbContext, dbState) {
                   if(dbState is DatabaseLoaded ) {
                       return  IconButton(                        
-                        onPressed: () {                          
+                        onPressed: () {  
+                          //Meta klada del get x - CategoryDataMoverBloc                      
                           BlocProvider.of<CategoryDataMoverBloc>(dbContext)
                               .add(CategoryDataMoverEvent(allCategories: dbState.categoriesRecipes.getCategories));
-                          Get.toNamed('/add');
+                         Get.toNamed(addRouteName);
                         },
                         icon: Icon(
                           Icons.add,
@@ -54,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                       return IconButton(
                        
                         onPressed: () {   
-                         // Get.toNamed('/add');
+                          
                         },
                         icon: Icon(
                           Icons.add,
@@ -64,7 +67,7 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             IconButton(
-                onPressed: () {},
+                onPressed: () {Get.toNamed(profileRouteName);},
                 icon: Container(
                   alignment: Alignment.center,
                   height: 35,
@@ -73,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Colors.white,
                   ),
-                  child: Icon(Icons.search, color: Colors.black, size: 22),
+                  child: Icon(Icons.person, color: Colors.black, size: 22),
                 )),
           ],
         ),
@@ -138,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                                       children: catState.recipes
                                           .map((recipe) =>
                                               rTile.buildRecipeCard(
-                                                  recipe, catContext))
+                                                  recipe, catContext, context))
                                           .toList());
                                 } else {
                                   return ListView(
@@ -148,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                                       children: recipes
                                           .map((recipe) =>
                                               rTile.buildRecipeCard(
-                                                  recipe, catContext))
+                                                  recipe, catContext, context))
                                           .toList());
                                 }
                               },

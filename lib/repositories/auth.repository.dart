@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import '../model/models.export.dart';
-c
+
 class AuthRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
@@ -18,19 +18,47 @@ class AuthRepository {
       currentUser = user;
       return user;
     });
-  }
+  }  
   
+  //Creates new user on firebase
   Future<void> signup({
     required String email,
     required String password
-  }){}
+  }) 
+    async 
+  {
+      try
+      {
+        await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, 
+          password: password
+        );
+      } catch(e) {print (e);}
+      print("user created");
+  }
+ 
+  //Login user to firebase
+  Future<void> loginWithEmailAndPassword({
+    required String email,
+    required String password
+  }) async
+  {
+    try
+    {
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, 
+        password: password
+        );
+    } catch (_) {}
+  }
 
-//   Future<void> loginWithEmailAndPassword({
-//     required String email,
-//     required String password
-//   }){}
-
-// Future<void> logout() async {}
+ //Logs out user from firebase
+ Future<void> logout() async {
+  try 
+  {
+    await Future.wait([_firebaseAuth.signOut()]);
+  } catch (_) {}
+ }
 }
 
 // Take user obj from firebase and converting into local user object

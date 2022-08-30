@@ -9,18 +9,22 @@ import 'package:recipes_app/features/data_mover/bloc/data_mover_bloc.dart';
 import 'package:recipes_app/model/models.export.dart';
 import 'package:recipes_app/helpers/text.background.blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:recipes_app/router/route.names.dart';
+
+import '../features/navigation/bloc/navigation_bloc.dart';
 
 class RecipeTile  {  
   TextBackgroudBlur blur = TextBackgroudBlur(); 
 
-  Widget buildRecipeCard(Recipe recipe, BuildContext context){
+  Widget buildRecipeCard(Recipe recipe, BuildContext catContext, BuildContext context){
     
     return  GestureDetector(
         onTap: () {
-          BlocProvider.of<DataMoverBloc>(context).
+          BlocProvider.of<DataMoverBloc>(catContext).
           add(DataMoverEvent(recipe:  recipe));
           
-          Get.toNamed("/details");         
+          Get.toNamed(detailsRouteName);
+             
         },
         child: AspectRatio(
           aspectRatio: 6/8,

@@ -1,6 +1,6 @@
 part of 'auth_status_bloc.dart';
 
-enum AppStatus {authenticated,unauthenticated}
+enum AppStatus {authenticated,unauthenticated, neverBuided}
 
  class AuthStatusState extends Equatable {
   final AppStatus status;
@@ -11,6 +11,12 @@ enum AppStatus {authenticated,unauthenticated}
     this.user = User.empty,
   });
   
+  const AuthStatusState.neverBuilded() 
+    : this._(
+        status: AppStatus.neverBuided, 
+        user: User.empty
+      );
+
   const AuthStatusState.authenticated(User user ) 
   : this._(
       status: AppStatus.authenticated, 
@@ -19,7 +25,7 @@ enum AppStatus {authenticated,unauthenticated}
 
   const AuthStatusState.unauthenticated() 
   : this._(
-      status: AppStatus.authenticated      
+      status: AppStatus.unauthenticated      
     );
 
   @override
