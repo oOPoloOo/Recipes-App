@@ -1,14 +1,10 @@
-// ignore_for_file: unnecessary_new, prefer_const_constructors
+// ignore_for_file: unnecessary_new, prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
-import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 import 'package:recipes_app/router/route.names.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
-import 'package:recipes_app/widgets/category.widget.dart';
-import '../features/navigation/bloc/navigation_bloc.dart';
-import 'screens.export.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/helpers/curved.background.line.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,10 +39,10 @@ class HomeScreen extends StatelessWidget {
               builder: (dbContext, dbState) {
                   if(dbState is DatabaseLoaded ) {
                       return  IconButton(                        
-                        onPressed: () {  
-                          //Meta klada del get x - CategoryDataMoverBloc                      
-                          BlocProvider.of<CategoryDataMoverBloc>(dbContext)
-                              .add(CategoryDataMoverEvent(allCategories: dbState.categoriesRecipes.getCategories));
+                        onPressed: () {                                                 
+                         BlocProvider.of<CategoryDataMoverBloc>(dbContext)
+                          .add(CategoryDataMoverEvent(allCategories: dbState.categoriesRecipes.getCategories));
+                         
                          Get.toNamed(addRouteName);
                         },
                         icon: Icon(
@@ -54,11 +50,8 @@ class HomeScreen extends StatelessWidget {
                           size: 35,
                         ));
                      } else {
-                      return IconButton(
-                       
-                        onPressed: () {   
-                          
-                        },
+                      return IconButton(                       
+                        onPressed: () {},
                         icon: Icon(
                           Icons.add,
                           size: 35,

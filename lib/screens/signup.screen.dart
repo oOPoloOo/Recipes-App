@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -7,21 +9,19 @@ import 'package:recipes_app/router/route.names.dart';
 
 class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('SignUp')),
-      body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: SignUpForm()
-          // BlocProvider(
-          //   create: (context) => SignupCubit(context.read<AuthRepository>()),
-          //   child: ,
-          // )
-          // BlocProvider<SignupCubit>(
-          //   create: (_) => SignupCubit(context.read<AuthRepository>()),
-          //   child:  ),
-
-          //    BlocProvider.of<SignupCubit>(context,)
+    return Scaffold(      
+      body: Container(
+        decoration:  BoxDecoration(
+          image: DecorationImage(
+           image: AssetImage("images/back.jpg"),
+           fit: BoxFit.cover,
           ),
+        ),
+        child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(child: SignUpForm())          
+            ),
+      ),
     );
   }
 }
@@ -34,6 +34,7 @@ class SignUpForm extends StatelessWidget {
         // TODO: implement listener if error
       },
       child: Material(
+      color: Colors.transparent,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -75,7 +76,7 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
-          // obscuringCharacter: '*' ,
+          obscuringCharacter: '*' ,
           onChanged: (password) =>
               context.read<SignupCubit>().passwordChanged(password),
           obscureText: true,
@@ -97,11 +98,25 @@ class _SignUpButton extends StatelessWidget {
           return state.status == SignupStatus.submitting
               ? const CircularProgressIndicator()
               : ElevatedButton(
-                  onPressed: () {
-                    context.read<SignupCubit>().signupFormSubmitter();
+                // key: const Key('loginForm_continue_raisedButton'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  primary: const Color(0xFFFFD600),
+                ),
+                onPressed: () {
+                   context.read<SignupCubit>().signupFormSubmitter();
                     Get.offAllNamed(homeRouteName);
-                  },
-                  child: const Text('Signup'));
+                },
+                child: const Text('SIGNUP'),
+              );
+              // ElevatedButton(
+              //     onPressed: () {
+                    // context.read<SignupCubit>().signupFormSubmitter();
+                    // Get.offAllNamed(homeRouteName);
+              //     },
+              //     child: const Text('Signup'));
         });
   }
 }

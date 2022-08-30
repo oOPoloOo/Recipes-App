@@ -11,7 +11,6 @@ import 'package:recipes_app/helpers/text.background.blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:recipes_app/router/route.names.dart';
 
-import '../features/navigation/bloc/navigation_bloc.dart';
 
 class RecipeTile  {  
   TextBackgroudBlur blur = TextBackgroudBlur(); 
