@@ -14,8 +14,7 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
        if (state.status == LoginStatus.error) {}
       },
-      child: Scaffold(
-        //appBar: AppBar(title: const Text('SignUp')),
+      child: Scaffold(       
         body: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -115,8 +114,7 @@ class _LoginButton extends StatelessWidget {
 
 class _SignUpButton extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+  Widget build(BuildContext context) {    
     return ElevatedButton(
                 // key: const Key('loginForm_continue_raisedButton'),
                 style: ElevatedButton.styleFrom(

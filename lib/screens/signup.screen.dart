@@ -110,13 +110,7 @@ class _SignUpButton extends StatelessWidget {
                     Get.offAllNamed(homeRouteName);
                 },
                 child: const Text('SIGNUP'),
-              );
-              // ElevatedButton(
-              //     onPressed: () {
-                    // context.read<SignupCubit>().signupFormSubmitter();
-                    // Get.offAllNamed(homeRouteName);
-              //     },
-              //     child: const Text('Signup'));
+              );              
         });
   }
 }
