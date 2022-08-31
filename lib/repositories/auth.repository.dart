@@ -23,16 +23,25 @@ class AuthRepository {
   //Creates new user on firebase
   Future<void> signup({
     required String email,
-    required String password
+    required String password,
+    required String name
   }) 
     async 
   {
       try
       {
-        await _firebaseAuth.createUserWithEmailAndPassword(
+        late User userFirebase;
+
+        firebase_auth.UserCredential userCredential =  await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, 
           password: password
-        );
+        );       
+        
+        // final user = _firebaseAuth.currentUser;
+        final user = userCredential.user;
+        await user?.updateDisplayName(name);
+        
+
       } catch(e) {print (e);}
       print("user created");
   }
@@ -41,10 +50,11 @@ class AuthRepository {
   Future<void> loginWithEmailAndPassword({
     required String email,
     required String password
+    
   }) async
   {
     try
-    {
+    {  
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email, 
         password: password

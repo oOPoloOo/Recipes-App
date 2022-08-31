@@ -28,6 +28,15 @@ class SignupCubit extends Cubit<SignupState> {
       ),
     );
   }
+
+  void nameChanged(String value) {
+    emit(
+      state.copyWith(
+        name: value,
+        status: SignupStatus.initial,
+      ),
+    );
+  }
   
   Future<void> signupFormSubmitter() async {
     
@@ -45,7 +54,8 @@ class SignupCubit extends Cubit<SignupState> {
 
       await _authenticationRepository.signup(
         email: state.email, 
-        password: state.password);
+        password: state.password,
+        name: state.name);
 
       emit(state.copyWith(status: SignupStatus.success));
     } catch (_) {}

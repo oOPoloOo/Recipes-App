@@ -22,9 +22,7 @@ class AuthStatusBloc extends Bloc<AuthStatusEvent, AuthStatusState> {
       ? AuthStatusState.authenticated(authRepository.currentUser)
       : const AuthStatusState.unauthenticated() ) {
     on<AuthUserChanged>(_onUserChanged);
-    on<AuthLogoutRequest>(_onLogoutRequested);
-     
-     //Stream<AuthStatusState> get stateStream {return state;}
+    on<AuthLogoutRequest>(_onLogoutRequested);   
      
     _userSubscription = _authRepository.user.listen((user) => 
       add(AuthUserChanged(user)),
@@ -33,11 +31,7 @@ class AuthStatusBloc extends Bloc<AuthStatusEvent, AuthStatusState> {
 
   AuthStatusState get authState  {
       return state; 
-  }
-  // Stream<AuthStatusState> get authStateStream  {
-  //     return state; 
-  // }
-
+  } 
 
   //If event have user set state to authenticated
   void _onUserChanged(AuthUserChanged event, Emitter<AuthStatusState> emit)

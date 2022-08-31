@@ -42,11 +42,31 @@ class SignUpForm extends StatelessWidget {
             const SizedBox(height: 8),
             _PasswordInput(),
             const SizedBox(height: 8),
+            _fullNameInput(),
+            const SizedBox(height: 8),
             _SignUpButton(),
             const SizedBox(height: 8),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _fullNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignupCubit, SignupState>(
+      buildWhen: (previous, current) => previous.name != current.name,
+      builder: (context, state) {
+        return TextField(
+          onChanged: (name) => context.read<SignupCubit>().nameChanged(name),
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'Full name',
+          ),
+        );
+      },
     );
   }
 }
