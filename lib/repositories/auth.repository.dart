@@ -18,19 +18,57 @@ class AuthRepository {
       currentUser = user;
       return user;
     });
-  }
+  }  
   
-  // Future<void> signup({
-  //   required String email,
-  //   required String password
-  // }){}
+  //Creates new user on firebase
+  Future<void> signup({
+    required String email,
+    required String password,
+    required String name
+  }) 
+    async 
+  {
+      try
+      {
+        late User userFirebase;
 
-//   Future<void> loginWithEmailAndPassword({
-//     required String email,
-//     required String password
-//   }){}
+        firebase_auth.UserCredential userCredential =  await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, 
+          password: password
+        );       
+        
+        // final user = _firebaseAuth.currentUser;
+        final user = userCredential.user;
+        await user?.updateDisplayName(name);
+        
 
-// Future<void> logout() async {}
+      } catch(e) {print (e);}
+      print("user created");
+  }
+ 
+  //Login user to firebase
+  Future<void> loginWithEmailAndPassword({
+    required String email,
+    required String password
+    
+  }) async
+  {
+    try
+    {  
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, 
+        password: password
+        );
+    } catch (_) {}
+  }
+
+ //Logs out user from firebase
+ Future<void> logout() async {
+  try 
+  {
+    await Future.wait([_firebaseAuth.signOut()]);
+  } catch (_) {}
+ }
 }
 
 // Take user obj from firebase and converting into local user object
