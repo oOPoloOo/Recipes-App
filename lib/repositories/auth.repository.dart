@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import '../model/models.export.dart';
-c
+
 class AuthRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
@@ -20,10 +20,10 @@ class AuthRepository {
     });
   }
   
-  Future<void> signup({
-    required String email,
-    required String password
-  }){}
+  // Future<void> signup({
+  //   required String email,
+  //   required String password
+  // }){}
 
 //   Future<void> loginWithEmailAndPassword({
 //     required String email,
