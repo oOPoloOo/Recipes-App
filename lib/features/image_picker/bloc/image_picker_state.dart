@@ -10,13 +10,10 @@ class ImagePickerInitial extends ImagePickerState {}
 
 class ImagePreviewLoaded extends ImagePickerState {}
 
-
-
 class ImagePickerPreview extends ImagePickerState {
   final PhotoInfo photoInfo;
 
-  const ImagePickerPreview({required this.photoInfo});
-   
+  const ImagePickerPreview({required this.photoInfo});   
 
   @override
   List<Object> get props => [photoInfo];

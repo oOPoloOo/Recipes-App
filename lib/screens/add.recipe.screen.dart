@@ -4,8 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:recipes_app/features/categories/bloc/categories_bloc.dart';
-
-import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/image_picker/bloc/image_picker_bloc.dart';
 
 import 'package:recipes_app/services/services.dart';
@@ -14,7 +12,7 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:recipes_app/features/duration_picker/bloc/duration_picker_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipes_app/model/models.export.dart';
-import 'package:recipes_app/features/database/bloc/database_bloc.dart';
+
 import 'screens.export.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/widgets/styles/styles.dart';
@@ -229,11 +227,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     
                                     //Reset category filter in main page
                                     BlocProvider.of<CategoriesBloc>(context)
-                                        .add(CategoriesReset());    
-
-                                    //Refresh main page. Not working
-                                    // BlocProvider.of<DatabaseBloc>(context)
-                                    //   .add(DatabaseLoad());
+                                        .add(CategoriesReset());   
                                         
                                     Get.offAll(HomeScreen());                                    
                                   }

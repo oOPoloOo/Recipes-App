@@ -7,6 +7,7 @@ import 'package:recipes_app/features/auth/bloc/auth_status_bloc.dart';
 import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 import 'package:recipes_app/features/login/cubit/login_cubit.dart';
+import 'package:recipes_app/features/profile_image_picker/bloc/profile_image_picker_bloc.dart';
 import 'package:recipes_app/features/signup/cubit/signup_cubit.dart';
 import 'package:recipes_app/middleware/auth.router.dart';
 import 'package:recipes_app/repositories/auth.repository.dart';
@@ -70,9 +71,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-            BlocProvider(
-              create: (context) => AuthStatusBloc(authRepository: AuthRepository()),
-             ),
+          BlocProvider(
+            create: (context) => AuthStatusBloc(authRepository: AuthRepository()),
+            ),
            BlocProvider(
             create: (context) => DatabaseBloc(RecipesRepository()),
            ),
@@ -97,18 +98,17 @@ class _MyAppState extends State<MyApp> {
            BlocProvider(
               create: (context) => SignupCubit(AuthRepository()),
              ),
-             BlocProvider(
-              create: (context) => LoginCubit(AuthRepository()),
-             ),    
+            BlocProvider(
+            create: (context) => LoginCubit(AuthRepository()),
+            ),    
+            BlocProvider(
+            create: (context) => ProfileImagePickerBloc(RecipesRepository()),
+            ),  
       ],
-      // child: GetMaterialApp(
-      //   getPages: AppRoutes.routes,
-      //   initialRoute: '/home',
-      // ), 
+    
       child: GetMaterialApp(
           getPages: AppRoutes.routes,        
-         home: AuthRouter(), 
-         //initialRoute: homeRouteName,
+         home: AuthRouter(),          
         ),         
     );
   }

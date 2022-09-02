@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:recipes_app/repositories/recipes.repository.dart';
 
 import '../model/models.export.dart';
 
 class AuthRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
+  final recipeRepo = RecipesRepository();
 
   AuthRepository({firebase_auth.FirebaseAuth? firebaseAuth})
   : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
@@ -24,7 +26,8 @@ class AuthRepository {
   Future<void> signup({
     required String email,
     required String password,
-    required String name
+    required String name,
+    required String photoLocalPath 
   }) 
     async 
   {
@@ -35,15 +38,15 @@ class AuthRepository {
         firebase_auth.UserCredential userCredential =  await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, 
           password: password
-        );       
+        ); 
         
-        // final user = _firebaseAuth.currentUser;
         final user = userCredential.user;
         await user?.updateDisplayName(name);
+         final photoUrl = await recipeRepo.uploadFile(photoLocalPath);
+        await user?.updatePhotoURL(photoUrl);
         
 
-      } catch(e) {print (e);}
-      print("user created");
+      } catch(e) {print (e);}     
   }
  
   //Login user to firebase
