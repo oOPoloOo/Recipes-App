@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
+import 'package:recipes_app/router/route.names.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
 import 'package:recipes_app/widgets/category.widget.dart';
@@ -63,8 +64,8 @@ class HomeScreen extends StatelessWidget {
                      }                
               },
             ),
-            IconButton(
-                onPressed: () {},
+             IconButton(
+                onPressed: () {Get.toNamed(profileRouteName);},
                 icon: Container(
                   alignment: Alignment.center,
                   height: 35,
@@ -73,8 +74,20 @@ class HomeScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Colors.white,
                   ),
-                  child: Icon(Icons.search, color: Colors.black, size: 22),
+                  child: Icon(Icons.person, color: Colors.black, size: 22),
                 )),
+            // IconButton(
+            //     onPressed: () {},
+            //     icon: Container(
+            //       alignment: Alignment.center,
+            //       height: 35,
+            //       width: 35,
+            //       decoration: BoxDecoration(
+            //         shape: BoxShape.circle,
+            //         color: Colors.white,
+            //       ),
+            //       child: Icon(Icons.search, color: Colors.black, size: 22),
+            //     )),
           ],
         ),
       ),

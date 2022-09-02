@@ -13,5 +13,8 @@ class AppRoutes {
      GetPage(name: homeRouteName, page: () => HomeScreen()),
      GetPage(name: addRouteName, page: () => AddRecipeScreen()),
      GetPage(name: detailsRouteName, page: () => RecipeDetailsScreen()),
+     GetPage(name: loginRouteName, page: () => LoginScreen()),
+     GetPage(name: signUpRouteName, page: () => SignUpScreen()),
+     GetPage(name: profileRouteName, page: () => ProfileScreen()),
   ];
 }
