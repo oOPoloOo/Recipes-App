@@ -33,7 +33,7 @@ DatabaseServices db = DatabaseServices();
       return db.uploadRecipeData(recipe);
     }
   
-    Future pickRecipeImg(ImageSource source) async {
+    Future pickImg(ImageSource source) async {
       
       //With ImagePicker
       final ImagePicker _picker = ImagePicker();

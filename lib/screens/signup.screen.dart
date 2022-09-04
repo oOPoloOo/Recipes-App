@@ -1,11 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:recipes_app/features/auth/bloc/auth_status_bloc.dart';
+import 'package:recipes_app/features/profile_image_picker/bloc/profile_image_picker_bloc.dart';
 import 'package:recipes_app/features/signup/cubit/signup_cubit.dart';
 import 'package:recipes_app/repositories/auth.repository.dart';
 import 'package:recipes_app/router/route.names.dart';
+import 'package:recipes_app/widgets/signup/signup.select.media.modal.dart';
+
+import '../widgets/add_recipe_screen/select.media.modal.dart';
 
 class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -38,6 +45,8 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            _UserImage(),
+            const SizedBox(height: 8),
             _EmailInput(),
             const SizedBox(height: 8),
             _PasswordInput(),
@@ -49,6 +58,51 @@ class SignUpForm extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+class _UserImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
+
+    
+    return BlocBuilder<ProfileImagePickerBloc, ProfileImagePickerState>(
+      builder: (context, state) {
+       if(state is ProfileImagePickerInitial)
+       {
+          return Padding(
+          padding: EdgeInsets.all(15),
+          child: GestureDetector(
+            onTap: () => selectProfilePhoto(context),
+            child: CircleAvatar(
+              backgroundColor: Colors.grey,
+              radius: media.width * 0.2,
+              child: Icon(
+                Icons.person,
+                color: Colors.white,
+                size: media.width * 0.2,
+              ),
+            ),
+          ),
+        );
+       } 
+       else
+      if(state is ProfileImagePickerPreview)
+       {
+         context.read<SignupCubit>().photoChanged(state.photoInfo.localPath);
+         return Padding(
+          padding: EdgeInsets.all(15),
+          child: CircleAvatar(
+            backgroundImage: FileImage(File(state.photoInfo.localPath)),
+            radius: media.width * 0.2,
+            
+          ),
+        );
+       } else {
+        return Container(child: Text('Something wrong'),);
+       }    
+      },
     );
   }
 }
@@ -117,8 +171,7 @@ class _SignUpButton extends StatelessWidget {
         builder: (context, state) {
           return state.status == SignupStatus.submitting
               ? const CircularProgressIndicator()
-              : ElevatedButton(
-                // key: const Key('loginForm_continue_raisedButton'),
+              : ElevatedButton(               
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -126,7 +179,11 @@ class _SignUpButton extends StatelessWidget {
                   primary: const Color(0xFFFFD600),
                 ),
                 onPressed: () {
+                   //Push data to server
                    context.read<SignupCubit>().signupFormSubmitter();
+                   //Resets signup image to blank
+                   context.read<ProfileImagePickerBloc>().add(ImagePicked());
+                   
                     Get.offAllNamed(homeRouteName);
                 },
                 child: const Text('SIGNUP'),
