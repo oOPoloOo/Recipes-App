@@ -5,12 +5,11 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:recipes_app/services/services.dart';
 import 'package:recipes_app/model/models.export.dart';
-// import 'package:file_picker/file_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 
 class RecipesRepository {
@@ -74,5 +73,17 @@ DatabaseServices db = DatabaseServices();
 
     Future<String> uploadFile(String path) async {
       return storage.UploadFile2(path);
-    }  
+    }
+
+    Future<bool> commentsExist(String mealName) {
+      return db.doCommentsExists(mealName);
+    }
+
+    Future<List<Comment>> readComments(String mealName) {
+      return db.readCommentsQuery(mealName);
+    }
+
+    Future<void> writeComment(Comment comment, String mealName) {
+      return db.uploadCommentData(comment, mealName);
+    }
 }

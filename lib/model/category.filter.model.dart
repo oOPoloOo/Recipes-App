@@ -8,8 +8,7 @@ class CategoryFilter{
 
       CategoryFilter(this.recipes,this.category);
        
-        List<Recipe> get getRecipes { return recipes; }
-        //List<Category> get getCategories { return categories; }
+      List<Recipe> get getRecipes { return recipes; }     
 
 }
 

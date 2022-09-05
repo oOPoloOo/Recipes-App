@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
-import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
 import 'package:recipes_app/router/route.names.dart';
 import 'package:recipes_app/services/services.dart';
 import 'package:get/get.dart';
+import 'package:recipes_app/widgets/home/recipe.widget.dart';
 import 'package:recipes_app/widgets/widgets.export.dart';
 import 'package:recipes_app/helpers/curved.background.line.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

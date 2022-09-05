@@ -17,6 +17,9 @@ class ProfileScreen extends StatelessWidget {
               child:                 
                 Column(
                   children: [
+                    SizedBox( 
+                      height: media.height * 0.1
+                    ),
                     _UserImage(),
                     _FullNameText(),
                     _EmailText(),

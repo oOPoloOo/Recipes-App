@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
 import 'package:recipes_app/features/auth/bloc/auth_status_bloc.dart';
 import 'package:recipes_app/features/category_data_mover/bloc/category_data_mover_bloc.dart';
 import 'package:recipes_app/features/choose_category/bloc/choose_category_bloc.dart';
+import 'package:recipes_app/features/comments/bloc/comments_bloc.dart';
 import 'package:recipes_app/features/login/cubit/login_cubit.dart';
 import 'package:recipes_app/features/profile_image_picker/bloc/profile_image_picker_bloc.dart';
 import 'package:recipes_app/features/signup/cubit/signup_cubit.dart';
@@ -44,15 +46,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late Image addImg;
+  late Image authImg;
   
   //Sets Screen position in the app
   @override
   void initState() {
-    super.initState();
+
+   super.initState();    
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);   
+    authImg = Image.asset('/home/polo/Documents/ThinkBig/recipes_app/images/back.jpg');
+     addImg = Image.asset('/home/polo/Documents/ThinkBig/recipes_app/images/plateBlack.jpg');
+  }
+ 
+  //Preloading images
+  @override
+  void didChangeDependencies() {
+  super.didChangeDependencies();
+    precacheImage(addImg.image, context);
+    precacheImage(authImg.image, context);
   }
 
   //When leving app reverts screen positions to original
@@ -103,6 +118,9 @@ class _MyAppState extends State<MyApp> {
             ),    
             BlocProvider(
             create: (context) => ProfileImagePickerBloc(RecipesRepository()),
+            ),  
+             BlocProvider(
+            create: (context) => CommentsBloc(RecipesRepository()),
             ),  
       ],
     
